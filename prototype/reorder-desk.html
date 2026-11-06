@@ -1,0 +1,513 @@
+<title>Freshroots Reorder Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@600;800&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: instrument panels on near-black. Top bar → 5 KPI tiles → [runway list 7/12 | SKU detail 5/12] → [hand-off | connections].
+   Signature: the "runway" capsule — weeks of cover on a track, with the reorder window lit and the fill coloured by what to do. */
+:root{
+  --bg:#0A0A14; --s1:#13131F; --s2:#1B1B2A; --border:#26263A; --track:#24243A; --band:#34344F;
+  --t1:#F2F2F7; --t2:#A3A3B8; --t3:#7E7E95;
+  --now-a:#FF5A36; --now-b:#FF8A3D;      /* reorder now: the one warm alert accent */
+  --re-a:#3B82F6;  --re-b:#22D3EE;       /* reorder (demand up) */
+  --pa-a:#8B5CF6;  --pa-b:#A78BFA;       /* pause (overstock) */
+  --ok-a:#10B981;  --ok-b:#5EEAD4;       /* inside window / approved */
+  --ex-a:#EC4899;  --ex-b:#F472B6;       /* exception */
+  --ui:"Manrope",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --dot:"Doto","JetBrains Mono",monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--t1);font-family:var(--ui);font-size:14px;line-height:1.45;min-height:100vh}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:50;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.orbs{position:absolute;top:0;left:0;right:0;height:320px;overflow:hidden;pointer-events:none;z-index:0}
+.orbs i{position:absolute;border-radius:50%;filter:blur(110px);opacity:.12}
+.orbs i:nth-child(1){width:520px;height:300px;left:-120px;top:-140px;background:var(--now-a)}
+.orbs i:nth-child(2){width:460px;height:260px;right:-80px;top:-150px;background:var(--pa-a)}
+.wrap{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding-block:14px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+/* top bar */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;min-height:44px}
+.brand{display:flex;align-items:baseline;gap:12px}
+.brand b{font-weight:700;font-size:18px;letter-spacing:-.01em}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t2)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--s1);font-family:var(--mono);font-size:11.5px;color:var(--t2);white-space:nowrap}
+.chip b{color:var(--t1);font-weight:500}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ok-a);display:inline-block}
+.dot.live{animation:pulse 2s infinite}
+.dot.warn{background:#FBBF24}.dot.off{background:var(--t3)}.dot.alert{background:var(--now-a)}
+@keyframes pulse{50%{opacity:.35}}
+.who{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--t2)}
+.avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--pa-a),var(--re-b));display:grid;place-items:center;font-weight:700;font-size:12px;color:#0A0A14}
+/* panels */
+.panel{background:var(--s1);border:1px solid var(--border);border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);padding:20px;min-width:0;position:relative}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);display:flex;align-items:center;gap:8px;justify-content:space-between}
+.label .n{color:var(--t3)}
+/* KPI tiles */
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+@media (max-width:1100px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{overflow:hidden;display:flex;flex-direction:column;gap:6px;padding:16px 18px;min-height:132px}
+.tile::before{content:"";position:absolute;inset:0;border-radius:16px;background:radial-gradient(120% 90% at 0% 0%,var(--tint) 0%,transparent 55%);opacity:.16;pointer-events:none}
+.tile .hero{font-family:var(--dot);font-weight:800;font-size:46px;line-height:1;letter-spacing:.02em;margin-top:6px}
+.tile .hero small{font-family:var(--mono);font-weight:400;font-size:12.5px;color:var(--t3);letter-spacing:0;margin-left:6px}
+.tile .foot{margin-top:auto;font-size:12px;color:var(--t2);display:flex;justify-content:space-between;gap:8px}
+.tile .foot b{font-family:var(--mono);font-weight:500;color:var(--t1)}
+.ring{position:absolute;right:16px;top:44px}
+/* main grid */
+.grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;align-items:start}
+.grid2{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;align-items:start}
+@media (max-width:1100px){.grid,.grid2{grid-template-columns:minmax(0,1fr)}}
+/* runway list */
+.tabs{display:flex;gap:18px;border-bottom:1px solid var(--border);margin:12px 0 4px;overflow-x:auto}
+.tab{all:unset;cursor:pointer;padding:8px 0 10px;font-size:13px;color:var(--t2);border-bottom:2px solid transparent;white-space:nowrap}
+.tab b{font-family:var(--mono);font-weight:500;margin-left:6px;color:var(--t3)}
+.tab[aria-selected="true"]{color:var(--t1);border-color:var(--t1)}
+.tab:focus-visible{outline:2px solid var(--re-b);outline-offset:3px}
+.scale{display:grid;grid-template-columns:minmax(170px,1.2fr) 112px minmax(240px,2fr) 72px 104px;gap:12px;padding:8px 10px 2px;font-family:var(--mono);font-size:10.5px;color:var(--t3);letter-spacing:.06em;text-transform:uppercase}
+.rows{display:flex;flex-direction:column}
+.row{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:minmax(170px,1.2fr) 112px minmax(240px,2fr) 72px 104px;gap:12px;align-items:center;min-height:56px;padding:6px 10px;border-radius:10px;border-left:3px solid transparent}
+.row+.row{box-shadow:0 -1px 0 var(--border)}
+.row:hover{background:var(--s2)}
+.row[aria-current="true"]{background:var(--s2);border-left-color:var(--sel,var(--t2))}
+.row:focus-visible{outline:2px solid var(--re-b);outline-offset:-2px}
+.sku{display:flex;gap:10px;align-items:center;min-width:0}
+.glyph{flex:none;width:28px;height:28px;border-radius:8px;background:var(--s2);display:grid;place-items:center;border:1px solid var(--border)}
+.glyph svg{width:14px;height:14px;stroke:var(--t2);fill:none;stroke-width:1.6}
+.nm{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-family:var(--mono);font-size:11px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.per{color:var(--ex-b)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;width:max-content}
+.pill i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-reorder_now{color:var(--now-b);background:rgba(255,90,54,.12)}
+.st-reorder{color:var(--re-b);background:rgba(59,130,246,.14)}
+.st-pause{color:var(--pa-b);background:rgba(139,92,246,.14)}
+.st-ok{color:var(--ok-b);background:rgba(16,185,129,.10)}
+.st-exception{color:var(--ex-b);background:rgba(236,72,153,.14)}
+.st-held{color:var(--t2);background:transparent;border:1px dashed var(--t3)}
+.qty{text-align:right;font-family:var(--mono);font-size:13px}
+.qty small{display:block;color:var(--t3);font-size:10.5px}
+.state{font-size:12px;text-align:right;white-space:nowrap}
+.state b{font-weight:600}
+.state .ap{color:var(--ok-b)}.state .ed{color:#FBBF24}.state .rj{color:var(--now-b)}.state .todo{color:var(--t3)}
+svg.runway text{font-family:var(--mono);font-size:10.5px;font-weight:600}
+/* detail */
+.detail{display:flex;flex-direction:column;gap:16px;position:sticky;top:12px}
+.idhead{display:flex;gap:14px;align-items:flex-start}
+.idhead .glyph{width:44px;height:44px;border-radius:12px}
+.idhead .glyph svg{width:20px;height:20px}
+.idhead h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.metarows{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:12px;color:var(--t2)}
+.metarows span{display:inline-flex;gap:5px;align-items:center}
+.metarows svg{width:12px;height:12px;stroke:var(--t3);fill:none;stroke-width:1.6}
+.why{background:var(--s2);border:1px solid var(--whyc,var(--border));border-radius:12px;padding:14px 16px;font-size:15.5px;line-height:1.5}
+.why .src{display:flex;gap:8px;align-items:center;margin-top:8px;font-family:var(--mono);font-size:10.5px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
+.rules{display:flex;flex-wrap:wrap;gap:6px}
+.rc{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;font-size:11.5px;border:1px solid var(--border);color:var(--t2)}
+.rc b{font-family:var(--mono);font-weight:600;color:var(--t1)}
+.rc.on{border-color:transparent;background:var(--s2);color:var(--t1)}
+.rc.on::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rcc,var(--t2))}
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.strip div{display:flex;flex-direction:column;gap:2px;padding-bottom:8px;border-bottom:3px solid var(--u)}
+.strip span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+.strip b{font-family:var(--mono);font-size:20px;font-weight:500}
+.strip b small{font-size:11px;color:var(--t3);margin-left:3px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px;border-radius:999px;border:1.5px solid var(--border);color:var(--t1);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:filter .15s,border-color .15s}
+.btn:hover{border-color:var(--t2)}
+.btn.primary{height:44px;padding:0 22px;border:0;color:#0A0A14;background:linear-gradient(90deg,var(--ok-b),#E9FBF6)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{border-color:rgba(255,90,54,.55);color:var(--now-b)}
+.btn.danger:hover{background:var(--now-a);color:#0A0A14;border-color:var(--now-a)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;filter:none}
+.btn:focus-visible{outline:2px solid var(--re-b);outline-offset:2px}
+.btn.sm{height:30px;padding:0 12px;font-size:11px}
+.editor{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px}
+.editor label{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2)}
+.editor input{font:inherit;font-family:var(--ui);font-size:14px;letter-spacing:0;text-transform:none;height:36px;padding:0 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--t1)}
+.editor input[type=number]{width:110px;font-family:var(--mono)}
+.editor .note{flex:1;min-width:220px}.editor .note input{width:100%}
+.editor input:focus-visible{outline:2px solid var(--re-b);outline-offset:1px}
+.err{color:var(--now-b);font-size:12.5px;width:100%}
+.decided{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--t2)}
+.decided b{color:var(--t1)}
+/* hand-off & connections */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-weight:500;padding:8px 6px;border-bottom:1px solid var(--border)}
+td{padding:10px 6px;border-bottom:1px solid var(--border)}
+td.num,th.num{text-align:right}
+.empty{color:var(--t3);font-size:13px;padding:18px 0}
+.conn{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.conn:last-child{border-bottom:0}
+.conn .t{font-weight:600;font-size:13px}
+.conn .d{font-size:12px;color:var(--t2)}
+.status{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.hist{font-size:12.5px;color:var(--t2);display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.hist a{color:var(--re-b)}
+.kbd{font-family:var(--mono);font-size:11px;color:var(--t3)}
+.kbd kbd{border:1px solid var(--border);border-radius:4px;padding:0 5px;color:var(--t2)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--s2);border:1px solid var(--border);color:var(--t1);padding:10px 16px;border-radius:999px;font-size:13px;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.grow{animation:grow .6s ease-out both;transform-origin:left center}
+@keyframes grow{from{transform:scaleX(0)}}
+</style>
+
+<div class="orbs" aria-hidden="true"><i></i><i></i></div>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><b>Freshroots</b><span>Reorder desk</span></div>
+    <div class="meta" id="meta"></div>
+    <div class="who" id="who"><span class="avatar" id="av">·</span><span id="whoname">Viewer</span></div>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="l06">
+      <div class="label" id="l06"><span><span class="n">06</span> · Runway · weeks of stock left</span><span class="kbd"><kbd>↑</kbd> <kbd>↓</kbd> move · <kbd>A</kbd> approve</span></div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="scale" aria-hidden="true"><span>SKU</span><span>Do</span><span id="scalelab">0 → 24 weeks · lit band = reorder window</span><span style="text-align:right">Qty</span><span style="text-align:right">Decision</span></div>
+      <div class="rows" id="rows" role="listbox" aria-label="SKUs"></div>
+    </section>
+    <section class="panel detail" id="detail" aria-live="polite"></section>
+  </div>
+
+  <div class="grid2">
+    <section class="panel" aria-labelledby="l08">
+      <div class="label" id="l08"><span><span class="n">08</span> · Hand-off to procurement</span><span id="hsum" class="mono"></span></div>
+      <div id="handoff"></div>
+    </section>
+    <section class="panel" aria-labelledby="l09">
+      <div class="label" id="l09"><span><span class="n">09</span> · Connections</span><span class="mono" id="connsum"></span></div>
+      <div id="conns"></div>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>"use strict";var Planner=(()=>{var $=Object.defineProperty;var C=Object.getOwnPropertyDescriptor;var j=Object.getOwnPropertyNames;var F=Object.prototype.hasOwnProperty;var K=(e,n)=>{for(var t in n)$(e,t,{get:n[t],enumerable:!0})},q=(e,n,t,s)=>{if(n&&typeof n=="object"||typeof n=="function")for(let a of j(n))!F.call(e,a)&&a!==t&&$(e,a,{get:()=>n[a],enumerable:!(s=C(n,a))||s.enumerable});return e};var G=e=>q($({},"__esModule",{value:!0}),e);var J={};K(J,{DEFAULT_SETTINGS:()=>v,EXPLAIN_SYSTEM_PROMPT:()=>H,allowedNumbers:()=>M,buildExplainUserMessage:()=>Q,evaluate:()=>E,mergeExplanations:()=>L,sortQueue:()=>D,templateReason:()=>x,validateReason:()=>I});var v={highDemandPct:.2,highDemandMultiplier:1.5,stockoutWeeks:6,overstockWeeks:14,perishableMinWeeks:3,perishableMaxWeeks:4,festivalMonths:[10,11,3],festivalUplift:.25,minHistoryWeeks:12,distributorSwingPct:.4,distributorMinShare:.1};var Y=16;function z(e){return Number(e.slice(5,7))}var R=e=>Math.round(e*10)/10,T=e=>e.length?e.reduce((n,t)=>n+t,0)/e.length:0;function E(e,n,t=v){let s=e.master,a=e.weekly.slice(-12),o=T(a),k=T(e.weekly.slice(-4)),c=t.festivalMonths.includes(z(n)),u=o*(c?1+t.festivalUplift:1),r=s.perishable?{min:t.perishableMinWeeks,max:t.perishableMaxWeeks}:{min:t.stockoutWeeks,max:t.overstockWeeks},i={sku:s.sku,name:s.name,category:s.category,perishable:s.perishable,festival:c,avg4:R(k),avg12:R(o),demand:R(u),onHand:e.onHand,onOrder:e.onOrder,window:r,standardQty:s.standardQty,trend:e.weekly.slice(-Y)},d=[];if(e.onHand===null?d.push("No stock row for this SKU in the SAP stock export."):e.onHand<0&&d.push(`SAP shows negative stock (${e.onHand} units).`),d.length){let l={...i,status:"held",rules:[],coverWeeks:null,recommendedQty:null,suggestedQty:null,rupeesAtRisk:0,exceptionReasons:[],heldReasons:d,reason:""};return l.reason=x(l,t),l}let _=e.onHand+e.onOrder,m=u>0?R(_/u):null,y=[],p=o>0&&k>o*(1+t.highDemandPct);p&&y.push("R1_high_demand");let O=m!==null&&m<r.min;O&&y.push("R2_stockout_risk");let b=m!==null&&m>r.max||u===0&&_>0;b&&y.push("R3_overstock_risk");let f=[];e.historyWeeks<t.minHistoryWeeks&&f.push(`New launch: only ${e.historyWeeks} week(s) of history, the rules need ${t.minHistoryWeeks}.`);for(let l of e.swings)f.push(`Distributor ${l.distributorId} (${Math.round(l.share*100)}% of volume) moved ${l.change>0?"+":""}${Math.round(l.change*100)}% in the last 4 weeks.`);p&&b&&f.push("Rules disagree: demand is up but stock is already above the maximum.");let N=s.standardQty,g=null,w="ok";p&&b?(g=null,w="exception"):O?(g=Math.round(N*(p?t.highDemandMultiplier:1)),w="reorder_now"):p?(g=Math.round(N*t.highDemandMultiplier),w="reorder"):b&&(g=0,w="pause");let P=Math.round(B({r1:p,r2:O,r3:b,coverWeeks:m,demand:u,avg4:k,avg12:o,window:r,pipeline:_})*s.unitPrice),S=f.length>0,W={...i,status:S?"exception":w,rules:y,coverWeeks:m,recommendedQty:S?null:g,suggestedQty:S?g:null,rupeesAtRisk:S&&P===0?Math.round(u*r.min*s.unitPrice):P,exceptionReasons:f,heldReasons:[],reason:""};return W.reason=x(W,t),W}function B(e){return e.r2&&e.coverWeeks!==null?(e.window.min-e.coverWeeks)*e.demand:e.r3?e.coverWeeks===null?e.pipeline:(e.coverWeeks-e.window.max)*e.demand:e.r1?(e.avg4-e.avg12)*e.window.min:0}var h=e=>e.toLocaleString("en-IN");function x(e,n=v){let t=e.festival?` Includes the ${Math.round(n.festivalUplift*100)}% festival uplift.`:"",s=e.perishable?" (perishable window)":"",a=e.avg12>0?Math.round((e.avg4/e.avg12-1)*100):0,o=e.coverWeeks===null?"no measurable":`${e.coverWeeks}`;switch(e.status){case"held":return`Held back: ${e.heldReasons.join(" ")} Fix the data before planning this SKU.`;case"exception":return`Needs your call: ${e.exceptionReasons.join(" ")}${e.suggestedQty!==null?` Rules alone would suggest ${h(e.suggestedQty)} units.`:""}`;case"reorder_now":return`Stock and open orders cover ${o} weeks, below the ${e.window.min}-week minimum${s}.${e.rules.includes("R1_high_demand")?` Last 4 weeks are ${a}% above the 12-week average.`:""} Reorder ${h(e.recommendedQty)} units now.${t}`;case"reorder":return`Last 4 weeks average ${h(e.avg4)} units, ${a}% above the 12-week average of ${h(e.avg12)}. Reorder ${h(e.recommendedQty)} units (${n.highDemandMultiplier}x standard).${t}`;case"pause":return e.coverWeeks===null?`No sales in 12 weeks with ${h(e.onHand+e.onOrder)} units in stock or on order. Pause the next order.`:`Stock and open orders cover ${o} weeks, above the ${e.window.max}-week maximum${s}. Pause the next order.${t}`;default:return`Cover of ${o} weeks is inside the ${e.window.min}\u2013${e.window.max} week window. No action.`}}var A=["exception","reorder_now","reorder","pause","held","ok"];function D(e){return[...e].sort((n,t)=>A.indexOf(n.status)-A.indexOf(t.status)||t.rupeesAtRisk-n.rupeesAtRisk||n.sku.localeCompare(t.sku))}var H=`You write one-line explanations for a demand planner's review queue at Freshroots, an FMCG distributor in Maharashtra and Goa.
+The reader is Raghav, the senior demand planner. He knows the rules. He wants the reason in plain words, fast.
+
+Rules for every line:
+- One sentence, at most 30 words. Lead with what is happening to stock or demand, end with the action.
+- Use ONLY numbers that appear in that item's "allowed_numbers" list. Never compute, round differently or invent a number.
+- Never change the action or the quantity. The action is already decided.
+- Do not mention AI, models or confidence. No exclamation marks.
+- Write units as "units" and weeks as "weeks".
+
+Also write a "summary" of at most 3 sentences for the top of the run email: how many SKUs need action, the biggest risk, and anything unusual. Use only numbers from "run_numbers".
+
+Return JSON only, in this shape:
+{"items":[{"sku":"...","reason":"..."}],"summary":"..."}`;function M(e){let n=e.avg12>0?Math.round((e.avg4/e.avg12-1)*100):0,t=[e.avg4,e.avg12,e.demand,e.onHand??0,e.onOrder,(e.onHand??0)+e.onOrder,e.coverWeeks??0,e.window.min,e.window.max,e.standardQty,e.recommendedQty??0,e.suggestedQty??0,n,Math.abs(n),4,12,1.5,25];return[...new Set(t.filter(s=>Number.isFinite(s)))]}var V={reorder_now:e=>`Reorder ${e.recommendedQty} units now`,reorder:e=>`Reorder ${e.recommendedQty} units`,pause:()=>"Pause the next order",exception:()=>"Raghav decides",held:()=>"Held back for data fix",ok:()=>"No action"};function X(e){return e.filter(n=>n.status!=="ok").map(n=>({sku:n.sku,name:n.name,action:V[n.status](n),rules:[...n.rules,...n.exceptionReasons,...n.heldReasons],facts:{perishable:n.perishable,festival_uplift_applied:n.festival,avg_last_4_weeks:n.avg4,avg_last_12_weeks:n.avg12,weekly_demand_used:n.demand,on_hand:n.onHand,on_order:n.onOrder,weeks_of_cover:n.coverWeeks,window_min_weeks:n.window.min,window_max_weeks:n.window.max},allowed_numbers:M(n)}))}function Q(e,n){return JSON.stringify({run_numbers:n,items:X(e)})}function U(e){return(e.match(/\d[\d,]*(?:\.\d+)?/g)??[]).map(n=>Number(n.replace(/,/g,"")))}function I(e,n){let t=U(e).filter(a=>!n.some(o=>Math.abs(o-a)<.051)),s=e.split(/\s+/).length>40;return{ok:t.length===0&&!s&&e.trim().length>0,bad:t}}function L(e,n,t,s=[]){let a=new Map,o={};if(n)try{let r=n.indexOf("{");o=JSON.parse(n.slice(r,n.lastIndexOf("}")+1))}catch{o={}}let k=new Map((o.items??[]).map(r=>[r.sku,r.reason]));for(let r of e){let i=k.get(r.sku);if(i){let d=I(i,M(r));a.set(r.sku,d.ok?{text:i,source:"llm"}:{text:r.reason,source:"template",rejected:i})}else a.set(r.sku,{text:r.reason,source:"template"})}let c=typeof o.summary=="string"?o.summary.trim():"",u=c.length>0&&U(c).every(r=>s.some(i=>Math.abs(i-r)<.051));return{reasons:a,summary:u?c:t}}return G(J);})();
+</script>
+<script>
+(function(){
+const D={"runDate":"2026-10-22","runId":"r20261022","weeks":["2026-06-29","2026-07-06","2026-07-13","2026-07-20","2026-07-27","2026-08-03","2026-08-10","2026-08-17","2026-08-24","2026-08-31","2026-09-07","2026-09-14","2026-09-21","2026-09-28","2026-10-05","2026-10-12"],"settings":{"highDemandPct":0.2,"highDemandMultiplier":1.5,"stockoutWeeks":6,"overstockWeeks":14,"perishableMinWeeks":3,"perishableMaxWeeks":4,"festivalMonths":[3,10,11],"festivalUplift":0.25,"minHistoryWeeks":12,"distributorSwingPct":0.4,"distributorMinShare":0.1},"issues":[],"stockAsOf":"2026-10-19","location":"Pune Central Warehouse","distributors":[{"id":"DIST001","name":"NutriFlow Distributors","region":"Maharashtra","status":"Active"},{"id":"DIST002","name":"GrainPath Logistics","region":"Maharashtra","status":"Active"},{"id":"DIST003","name":"PeakSource Supply","region":"Karnataka","status":"Active"},{"id":"DIST004","name":"Meridian Trade Co.","region":"Gujarat","status":"Active"}],"skuDistributor":{"SKU001":"DIST001","SKU002":"DIST001","SKU003":"DIST002","SKU004":"DIST002","SKU005":"DIST003","SKU006":"DIST003","SKU007":"DIST001","SKU008":"DIST002","SKU009":"DIST003","SKU010":"DIST004","SKU011":"DIST004","SKU012":"DIST004","SKU013":"DIST001","SKU014":"DIST002","SKU015":"DIST003"},"uom":{"SKU001":"Units","SKU002":"Units","SKU003":"Units","SKU004":"Units","SKU005":"Units","SKU006":"Units","SKU007":"Units","SKU008":"Units","SKU009":"Units","SKU010":"Units","SKU011":"Units","SKU012":"Units","SKU013":"Units","SKU014":"Units","SKU015":"Units"},"driveFolderId":"1rpIUJopK4EGcwkK1gOmR9RGRZ9yG4kx9","skus":[{"m":{"sku":"SKU001","name":"Freshroots Mango Drink 200ml","category":"Beverage","perishable":false,"standardQty":500,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[194,188,204,186,201,195,185,200,185,197,186,186,261,267,257,259],"oh":900,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU002","name":"Freshroots Oats Cookies 150g","category":"Snack","perishable":false,"standardQty":200,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[86,91,86,83,91,78,89,82,80,79,82,89,80,86,86,83],"oh":1200,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU003","name":"Freshroots Brown Rice 1kg","category":"Staple","perishable":false,"standardQty":300,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[151,139,139,142,154,148,145,152,148,145,157,154,143,151,150,159],"oh":820,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU004","name":"Freshroots Almond Milk 500ml","category":"Dairy Alt","perishable":true,"standardQty":150,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[82,77,86,75,78,83,75,79,74,82,83,80,84,77,82,81],"oh":180,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU005","name":"Freshroots Mixed Nuts 100g","category":"Snack","perishable":false,"standardQty":150,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[60,59,63,64,59,61,55,61,61,64,63,57,58,61,55,59],"oh":600,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU006","name":"Freshroots Quinoa 500g","category":"Staple","perishable":false,"standardQty":100,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[37,37,37,41,37,38,39,42,37,39,40,42,42,42,38,39],"oh":1100,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU007","name":"Freshroots Coconut Water 330ml","category":"Beverage","perishable":true,"standardQty":400,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[117,127,128,113,113,114,114,119,121,115,110,118,131,133,136,134],"oh":620,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU008","name":"Freshroots Granola Bar 40g","category":"Snack","perishable":false,"standardQty":300,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[110,112,113,102,117,114,116,115,108,108,103,112,102,102,104,104],"oh":950,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU009","name":"Freshroots Chia Seeds 200g","category":"Staple","perishable":false,"standardQty":80,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[34,32,32,33,32,34,32,37,35,33,33,34,34,32,36,37],"oh":400,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU010","name":"Freshroots Apple Cider Vinegar 500ml","category":"Condiment","perishable":false,"standardQty":60,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[24,24,23,23,24,24,26,23,23,26,25,23,25,23,25,26],"oh":260,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU011","name":"Freshroots Multigrain Bread 400g","category":"Staple","perishable":true,"standardQty":500,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[211,206,192,195,189,208,201,208,194,191,209,215,211,209,210,207],"oh":460,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU012","name":"Freshroots Herbal Tea 25 bags","category":"Beverage","perishable":false,"standardQty":150,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[52,55,53,50,50,53,52,56,59,54,58,59,62,60,59,59],"oh":480,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU013","name":"Freshroots Peanut Butter 300g","category":"Condiment","perishable":false,"standardQty":120,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[42,42,45,47,47,44,46,47,42,46,47,47,46,44,42,47],"oh":180,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU014","name":"Freshroots Dark Chocolate 80g","category":"Snack","perishable":false,"standardQty":200,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[68,73,75,68,68,75,72,66,65,66,74,73,75,78,79,78],"oh":620,"oo":0,"hw":16,"sw":[]},{"m":{"sku":"SKU015","name":"Freshroots Honey 500g","category":"Condiment","perishable":false,"standardQty":80,"unitPrice":1,"launchDate":"2026-06-29","active":true},"w":[29,30,28,27,32,30,30,32,29,31,31,28,28,29,28,30],"oh":360,"oo":0,"hw":16,"sw":[]}]}, P=window.Planner;
+const $=id=>document.getElementById(id);
+const fmt=n=>n==null?'—':Number(n).toLocaleString('en-IN');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COL={reorder_now:['--now-a','--now-b'],reorder:['--re-a','--re-b'],pause:['--pa-a','--pa-b'],ok:['--ok-a','--ok-b'],exception:['--ex-a','--ex-b'],held:['--t3','--t2']};
+const LAB={reorder_now:'Reorder now',reorder:'Reorder',pause:'Pause',ok:'In window',exception:'Your call',held:'Held'};
+const GLY={Beverage:'<path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z"/>',Snack:'<path d="M12 4l8 15H4z"/>',Staple:'<circle cx="7" cy="7" r="1.6"/><circle cx="17" cy="7" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/>','Dairy Alt':'<path d="M4 15a8 8 0 0 1 16 0z"/><path d="M4 19h16"/>',Condiment:'<path d="M12 3l7 9-7 9-7-9z"/>',link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'};
+const glyph=c=>`<span class="glyph" aria-hidden="true"><svg viewBox="0 0 24 24">${GLY[c]||'<circle cx="12" cy="12" r="6"/>'}</svg></span>`;
+const distName=sku=>{const d=D.distributors.find(x=>x.id===D.skuDistributor[sku]);return d?d:{name:D.skuDistributor[sku]||'—',region:''}};
+const weekLabel=i=>{const first=27;return 'W'+(first+i)};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+// ---------- state ----------
+const recs=P.sortQueue(D.skus.map(s=>P.evaluate({master:s.m,weeks:D.weeks,weekly:s.w,onHand:s.oh,onOrder:s.oo,historyWeeks:s.hw,swings:s.sw},D.runDate,D.settings)));
+const needs=r=>['reorder_now','reorder','pause','exception'].includes(r.status);
+let decisions={}, reasons={}, handoffs=[], sentDoc=null, me=null, meName='', users={};
+let sel=recs[0].sku, tab='decide', editing=null, mailMsg='';
+let pmail='';try{pmail=localStorage.getItem('fr-pmail')||'';}catch(e){}
+let db=null, sample=null, mcp=null, downloads=null, userCap=null;
+let caps={db:'pending',sample:'pending',mcp:'pending',downloads:'pending'};
+const path=`runs/${D.runId}`;
+
+// ---------- runway capsule (signature) ----------
+const MAXW=24;let firstPaint=true;
+function runway(r,w,h){
+  w=w||300;h=h||22;const pad=1,R=h/2,sx=v=>pad+Math.min(MAXW,v)/MAXW*(w-2*pad);
+  const [a,b]=COL[r.status]||COL.ok;const id='g'+r.sku+w;
+  const band=`<rect x="${sx(r.window.min)}" y="${pad}" width="${sx(r.window.max)-sx(r.window.min)}" height="${h-2*pad}" fill="var(--band)"/>`;
+  const ticks=[r.window.min,r.window.max].map(v=>`<line x1="${sx(v)}" x2="${sx(v)}" y1="${pad}" y2="${h-pad}" stroke="var(--t3)" stroke-width="1" stroke-dasharray="2 2"/>`).join('');
+  if(r.coverWeeks==null) return `<svg class="runway" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Cover unknown"><rect x="${pad}" y="${pad}" width="${w-2*pad}" height="${h-2*pad}" rx="${R-pad}" fill="var(--track)"/>${band}<text x="10" y="${h/2+4}" fill="var(--t2)">no cover data</text></svg>`;
+  const fw=Math.max(h-2*pad,sx(r.coverWeeks)-pad);const over=r.coverWeeks>MAXW;
+  const txt=`${r.coverWeeks} wk`;const inside=fw>58;
+  return `<svg class="runway" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${txt} of cover, window ${r.window.min} to ${r.window.max} weeks">
+    <defs><linearGradient id="${id}" x1="0" x2="1"><stop offset="0" stop-color="${css(a)}"/><stop offset="1" stop-color="${css(b)}"/></linearGradient></defs>
+    <rect x="${pad}" y="${pad}" width="${w-2*pad}" height="${h-2*pad}" rx="${R-pad}" fill="var(--track)"/>${band}${ticks}
+    <rect class="${firstPaint?'grow':''}" x="${pad}" y="${pad}" width="${fw}" height="${h-2*pad}" rx="${R-pad}" fill="url(#${id})"/>
+    ${over?`<text x="${w-8}" y="${h/2+4}" text-anchor="end" fill="#0A0A14">›</text>`:''}
+    <text x="${inside?pad+fw-8:pad+fw+6}" y="${h/2+4}" text-anchor="${inside?'end':'start'}" fill="${inside?'#0A0A14':'var(--t1)'}">${txt}</text></svg>`;
+}
+
+// ---------- top + tiles ----------
+function top(){
+  const live=caps.db==='ok';
+  $('meta').innerHTML=`<span class="chip">Run <b>Thu 22 Oct 2026</b> · W43</span><span class="chip">Sales to <b>W42</b> · stock <b>${D.stockAsOf}</b></span>${recs[0].festival?`<span class="chip" style="color:var(--now-b)">Festival month · <b>+25%</b> demand</span>`:''}<span class="chip"><i class="dot ${live?'live':'off'}"></i>${live?'<b>LIVE</b> shared decisions':'Local only'}</span>`;
+}
+function ringSvg(p,size){
+  size=size||56;const r=size/2-6,c=2*Math.PI*r,id='rg';
+  return `<svg class="ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><defs><linearGradient id="${id}"><stop offset="0" stop-color="${css('--ok-a')}"/><stop offset="1" stop-color="${css('--ok-b')}"/></linearGradient></defs><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--track)" stroke-width="7"/><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 ${size/2} ${size/2})"/></svg>`;
+}
+function tiles(){
+  const need=recs.filter(needs),now=recs.filter(r=>r.status==='reorder_now'),pause=recs.filter(r=>r.status==='pause');
+  const done=need.filter(r=>decisions[r.sku]).length;
+  const low=recs.filter(r=>r.coverWeeks!=null).sort((a,b)=>a.coverWeeks-b.coverWeeks)[0];
+  const units=now.reduce((a,r)=>a+(r.recommendedQty||0),0);
+  const t=(n,lab,tint,hero,unit,foot,extra)=>`<div class="panel tile" style="--tint:var(${tint})"><div class="label"><span><span class="n">${n}</span> · ${lab}</span></div><div class="hero">${hero}<small>${unit}</small></div>${extra||''}<div class="foot">${foot}</div></div>`;
+  $('tiles').innerHTML=
+    t('01','To decide','--ex-a',need.length,`of ${recs.length} SKUs`,`<span>Rest are inside their window</span>`)+
+    t('02','Reorder now','--now-a',now.length,'SKUs',`<span>Units</span><b>${fmt(units)}</b>`)+
+    t('03','Pause next order','--pa-a',pause.length,'SKUs',`<span>Over max cover</span><b>${pause.map(r=>r.coverWeeks+'wk').join(' · ')}</b>`)+
+    t('04','Shortest runway','--now-b',low.coverWeeks,'weeks',`<span>${esc(low.name.replace('Freshroots ',''))}</span><b>min ${low.window.min}</b>`)+
+    t('05','Decided','--ok-a',done,`of ${need.length}`,`<span>${sentDoc?'Sent to procurement':'Not sent yet'}</span><b>${Math.round(done/Math.max(1,need.length)*100)}%</b>`,ringSvg(done/Math.max(1,need.length)));
+}
+
+// ---------- list ----------
+function stateCell(r){
+  const d=decisions[r.sku];
+  if(!needs(r)) return '<span class="todo" style="color:var(--t3)">No action</span>';
+  if(!d) return '<span class="todo">To decide</span>';
+  if(d.decision==='rejected') return '<b class="rj">Rejected</b>';
+  return `<b class="${d.decision==='edited'?'ed':'ap'}">${d.decision==='edited'?'Edited':'Approved'}</b>`;
+}
+function qtyCell(r){
+  const d=decisions[r.sku];
+  if(d&&d.decision!=='rejected') return `${fmt(d.qty)}<small>${d.decision==='edited'?'was '+fmt(r.recommendedQty):'units'}</small>`;
+  if(r.status==='pause') return `0<small>pause</small>`;
+  if(r.recommendedQty==null) return '—';
+  return `${fmt(r.recommendedQty)}<small>${r.rules.includes('R1_high_demand')?'1.5× std':'std qty'}</small>`;
+}
+function visible(){return tab==='decide'?recs.filter(needs):tab==='ok'?recs.filter(r=>!needs(r)):recs;}
+function list(){
+  const c={decide:recs.filter(needs).length,ok:recs.filter(r=>!needs(r)).length,all:recs.length};
+  $('tabs').innerHTML=[['decide','Needs a decision'],['ok','In window'],['all','All SKUs']].map(([k,l])=>`<button class="tab" role="tab" aria-selected="${tab===k}" data-tab="${k}">${l}<b>${c[k]}</b></button>`).join('');
+  const v=visible();if(!v.find(r=>r.sku===sel)&&v[0]) sel=v[0].sku;
+  $('rows').innerHTML=v.map(r=>{const d=distName(r.sku);return `<button class="row" role="option" data-sku="${r.sku}" aria-current="${r.sku===sel}" aria-selected="${r.sku===sel}" style="--sel:var(${COL[r.status][1]})">
+    <span class="sku">${glyph(r.category)}<span style="min-width:0"><div class="nm">${esc(r.name.replace('Freshroots ',''))}</div><div class="sub">${r.sku} · ${esc(r.category)}${r.perishable?' · <span class="per">perishable</span>':''}</div></span></span>
+    <span class="pill st-${r.status}"><i></i>${LAB[r.status]}</span>
+    <span>${runway(r,230,22)}</span>
+    <span class="qty">${qtyCell(r)}</span>
+    <span class="state">${stateCell(r)}</span></button>`;}).join('');
+}
+
+// ---------- detail ----------
+function weeklyChart(r){
+  const w=r.trend,W=420,H=110,n=w.length,gap=6,bw=(W-gap*(n-1))/n,max=Math.max(r.demand,...w)*1.1,y=v=>H-18-(v/max)*(H-26);
+  const [a,b]=COL[r.status];
+  let s=`<svg width="100%" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly units sold, W27 to W42"><defs><linearGradient id="wk" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${css(a)}"/><stop offset="1" stop-color="${css(b)}"/></linearGradient></defs>`;
+  w.forEach((v,i)=>{const x=i*(bw+gap),last4=i>=n-4;
+    s+=`<rect x="${x}" y="8" width="${bw}" height="${H-26}" rx="${bw/2}" fill="var(--track)"/><rect x="${x}" y="${y(v)}" width="${bw}" height="${H-18-y(v)}" rx="${bw/2}" fill="${last4?'url(#wk)':'var(--band)'}"><title>${weekLabel(i)}: ${fmt(v)} units</title></rect>`;
+    if(i%4===0||i===n-1) s+=`<text x="${x+bw/2}" y="${H-4}" text-anchor="middle" fill="var(--t3)" font-family="JetBrains Mono" font-size="10">${weekLabel(i)}</text>`;});
+  const ly=(v,c,dash,lab,up)=>`<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="${c}" stroke-width="1.2" stroke-dasharray="${dash}"/><text x="4" y="${up?y(v)-5:y(v)+12}" fill="${c}" font-family="JetBrains Mono" font-size="10" paint-order="stroke" stroke="#13131F" stroke-width="4">${lab}</text>`;
+  s+=ly(r.avg12,'var(--t2)','3 3','12-wk avg '+fmt(r.avg12),false);
+  if(r.festival) s+=ly(r.demand,'var(--now-b)','1 3','festival-adjusted demand '+fmt(r.demand),true);
+  return s+'</svg>';
+}
+function ruleChips(r){
+  const pct=r.avg12>0?Math.round((r.avg4/r.avg12-1)*100):0, on=k=>r.rules.includes(k);
+  const chip=(active,c,txt)=>`<span class="rc ${active?'on':''}" style="--rcc:var(${c})">${txt}</span>`;
+  return chip(on('R1_high_demand'),'--re-b',`R1 last 4 wks <b>${pct>=0?'+':''}${pct}%</b> vs 12-wk`)+
+    chip(on('R2_stockout_risk'),'--now-a',`R2 cover <b>${r.coverWeeks??'—'}</b> &lt; ${r.window.min}`)+
+    chip(on('R3_overstock_risk'),'--pa-b',`R3 cover &gt; <b>${r.window.max}</b>`)+
+    chip(r.festival,'--now-b',`R4 festival <b>${r.festival?'+25%':'off'}</b>`)+
+    chip(r.perishable,'--ex-b',`R5 ${r.perishable?'perishable <b>3–4</b> wk':'standard <b>6–14</b> wk'}`);
+}
+function detail(){
+  const r=recs.find(x=>x.sku===sel),d=decisions[r.sku],dist=distName(r.sku),rs=reasons[r.sku];
+  const [a,b]=COL[r.status];
+  const why=r.status==='ok'?r.reason:(rs&&rs.text)||r.reason;
+  const src=rs&&rs.source==='llm'?'Written by Claude · every number checked against the rules':'Rule template'+(rs&&rs.rejected?' · Claude’s version failed the number check':'');
+  let act='';
+  if(needs(r)){
+    if(sentDoc) act=`<div class="decided">Hand-off sent. Decisions are locked for this run.</div>`;
+    else if(editing===r.sku||editing==='rj:'+r.sku){
+      const rej=editing==='rj:'+r.sku;
+      act=`<div class="editor">${rej?'':`<label>Quantity<input type="number" min="0" step="1" id="eq" value="${d&&d.qty!=null?d.qty:(r.recommendedQty??'')}"></label>`}
+        <label class="note">Why${rej?' reject':' change it'}<input type="text" id="en" placeholder="${rej?'e.g. distributor has stock from a scheme':'e.g. truck holds 600 units'}" value="${esc(d&&d.note||'')}"></label>
+        <button class="btn sm ${rej?'danger':''}" id="save">${rej?'Reject line':'Save quantity'}</button><button class="btn sm" id="cancel">Cancel</button><span class="err" id="err"></span></div>`;
+    } else if(d){
+      const who=d.by&&users[d.by]?users[d.by]:(d.by===me?'you':'a teammate');
+      act=`<div class="decided"><b>${d.decision==='rejected'?'Rejected':d.decision==='edited'?'Edited to '+fmt(d.qty)+' units':(d.qty===0?'Pause approved':'Approved · '+fmt(d.qty)+' units')}</b> by ${esc(who)}${d.note?` · “${esc(d.note)}”`:''}<button class="btn sm" id="undo">Undo</button></div>`;
+    } else {
+      act=`<div class="actions"><button class="btn primary" id="approve">${r.status==='pause'?'Approve pause':'Approve '+fmt(r.recommendedQty)+' units'}</button><button class="btn" id="edit">Edit qty</button><button class="btn danger" id="reject">Reject</button></div>`;
+    }
+  }
+  $('detail').innerHTML=`<div class="label"><span><span class="n">07</span> · SKU detail</span><span class="pill st-${r.status}"><i></i>${LAB[r.status]}</span></div>
+    <div class="idhead">${glyph(r.category)}<div style="min-width:0"><h2>${esc(r.name)}</h2>
+      <div class="metarows"><span>${r.sku}</span><span>${esc(r.category)}</span><span${r.perishable?' class="per"':''}>${r.perishable?'High perishability':'Low perishability'}</span>
+      <span><svg viewBox="0 0 24 24"><path d="M3 7h13v10H3zM16 10h4l1 3v4h-5"/></svg>${esc(dist.name)} · ${esc(dist.region)}</span>
+      <span><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11zM9 20v-6h6v6"/></svg>${esc(D.location)}</span></div></div></div>
+    <div class="why" style="--whyc:color-mix(in srgb, var(${b}) 40%, transparent)">${esc(why)}<div class="src"><i class="dot" style="background:var(${rs&&rs.source==='llm'?'--re-b':'--t3'})"></i>${src}</div></div>
+    ${runway(r,560,30).replace('width="560"','width="100%"')}
+    <div class="rules">${ruleChips(r)}</div>
+    <div>${weeklyChart(r)}</div>
+    <div class="strip">
+      <div style="--u:var(--re-a)"><span>On hand</span><b>${fmt(r.onHand)}<small>units</small></b></div>
+      <div style="--u:var(--now-b)"><span>Demand / wk</span><b>${fmt(r.demand)}</b></div>
+      <div style="--u:var(${b})"><span>Cover</span><b>${r.coverWeeks??'—'}<small>wk</small></b></div>
+      <div style="--u:var(--t3)"><span>Std qty</span><b>${fmt(r.standardQty)}</b></div></div>
+    ${act}`;
+  wireDetail(r);
+}
+function wireDetail(r){
+  const on=(id,f)=>{const el=$(id);if(el)el.onclick=f;};
+  on('approve',()=>decide(r,{decision:'approved',qty:r.recommendedQty,note:''}));
+  on('edit',()=>{editing=r.sku;detail();$('eq')&&$('eq').focus();});
+  on('reject',()=>{editing='rj:'+r.sku;detail();$('en')&&$('en').focus();});
+  on('cancel',()=>{editing=null;detail();});
+  on('undo',()=>undo(r));
+  on('save',()=>{
+    const rej=editing==='rj:'+r.sku,note=($('en').value||'').trim(),err=$('err');
+    let qty=null;
+    if(!rej){const v=$('eq').value;qty=Number(v);if(v===''||!Number.isFinite(qty)||qty<0){err.textContent='Enter a quantity of 0 or more.';return;}qty=Math.round(qty);}
+    if(!note){err.textContent='Add a note. Every edit and rejection needs a reason.';return;}
+    decide(r,rej?{decision:'rejected',qty:null,note}:{decision:qty===r.recommendedQty?'approved':'edited',qty,note});
+  });
+}
+
+// ---------- decisions (db when available) ----------
+async function decide(r,d){
+  editing=null;const body={...d,sku:r.sku,by:me,at:new Date().toISOString()};
+  decisions[r.sku]=body;renderAll();
+  if(db){try{await db.collection(`${path}/decisions`).doc(r.sku).set(body);}catch(e){toast('Could not save that decision: '+(e.message||e.code)+'. It is kept in this view only.');}}
+  const next=visible().find(x=>needs(x)&&!decisions[x.sku]);if(next){sel=next.sku;renderAll();}
+}
+async function undo(r){
+  delete decisions[r.sku];renderAll();
+  if(db){try{await db.collection(`${path}/decisions`).doc(r.sku).delete();}catch(e){toast('Could not undo: '+(e.message||e.code));}}
+}
+
+// ---------- hand-off ----------
+function lines(){return recs.filter(r=>decisions[r.sku]&&decisions[r.sku].decision!=='rejected');}
+function csv(){
+  const rows=lines().map(r=>{const d=decisions[r.sku],dist=distName(r.sku);return [D.runDate,r.sku,`"${r.name}"`,d.qty>0?'Reorder':'Pause next order',d.qty,`"${dist.name}"`,r.coverWeeks,d.decision,`"${(d.note||'').replace(/"/g,'""')}"`].join(',');});
+  return ['run_date,sku,name,action,qty,distributor,weeks_of_cover,decision,note',...rows].join('\n')+'\n';
+}
+function handoff(){
+  const need=recs.filter(needs),left=need.filter(r=>!decisions[r.sku]).length,L=lines(),buy=L.filter(r=>decisions[r.sku].qty>0);
+  $('hsum').textContent=`${buy.length} reorder lines · ${fmt(buy.reduce((a,r)=>a+decisions[r.sku].qty,0))} units`;
+  const body=L.length?`<table><thead><tr><th>SKU</th><th>Action</th><th class="num">Qty</th><th>Distributor</th></tr></thead><tbody>${L.map(r=>{const d=decisions[r.sku];return `<tr><td>${esc(r.name.replace('Freshroots ',''))} <span class="sub">${r.sku}</span></td><td>${d.qty>0?'Reorder':'Pause'}</td><td class="num mono">${fmt(d.qty)}</td><td>${esc(distName(r.sku).name)}</td></tr>`;}).join('')}</tbody></table>`:`<p class="empty">Approve lines in the runway above. They collect here for procurement.</p>`;
+  const can=!sentDoc&&left===0&&L.length>0;
+  $('handoff').innerHTML=body+`<div class="actions" style="margin-top:14px">
+      <button class="btn primary" id="send" ${can?'':'disabled'}>Send to procurement</button>
+      <button class="btn" id="dl" ${L.length&&downloads?'':'disabled'}>Download CSV</button>
+      <button class="btn" id="gm" ${L.length&&mcp?'':'disabled'}>Draft email in Gmail</button>
+      <span class="sub" style="white-space:normal">${sentDoc?`Sent ${new Date(sentDoc.at).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}. Procurement raises the POs in Zoho.`:left?`${left} line${left>1?'s':''} still to decide.`:mcp?'Saves the list to Google Drive as a Sheet.':'Google Drive is not connected in this view: use Download CSV.'}</span></div>
+    <div class="editor" style="margin-top:12px"><label class="note">Procurement email (for the Gmail draft)<input type="email" id="pmail" placeholder="procurement@freshroots.example" value="${esc(pmail)}"></label>${mailMsg?`<span class="sub" style="white-space:normal">${mailMsg}</span>`:''}</div>
+    ${handoffs.length?`<div class="hist">${handoffs.map(h=>`<span>${new Date(h.at).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})} · ${h.lines} lines · ${fmt(h.units)} units${h.url?` · <a href="${esc(h.url)}" target="_blank" rel="noopener">Open in Drive</a>`:''}</span>`).join('')}</div>`:''}`;
+  const s=$('send');if(s)s.onclick=send;
+  const pm=$('pmail');if(pm)pm.onchange=()=>{pmail=pm.value.trim();try{localStorage.setItem('fr-pmail',pmail);}catch(e){}};
+  const gm=$('gm');if(gm)gm.onclick=draftMail;
+  const dl=$('dl');if(dl)dl.onclick=async()=>{try{await downloads.save({filename:`freshroots-approved-${D.runDate}.csv`,data:csv()});toast('CSV saved.');}catch(e){if(e&&e.code!=='declined')toast('Download did not finish: '+(e.message||e.code));}};
+}
+async function send(){
+  const L=lines(),buy=L.filter(r=>decisions[r.sku].qty>0);const rec={at:new Date().toISOString(),by:me,lines:buy.length,units:buy.reduce((a,r)=>a+decisions[r.sku].qty,0),url:''};
+  $('send').disabled=true;
+  if(mcp&&D.driveFolderId){
+    try{const res=await mcp.callTool('Google Drive','create_file',{title:`Freshroots approved reorders ${D.runDate}`,textContent:csv(),contentMimeType:'text/csv',parentId:D.driveFolderId});
+      const p=res&&res.payload;rec.url=(p&&(p.viewUrl||p.webViewLink))||'';toast('Saved to Google Drive.');}
+    catch(e){toast('Google Drive save failed ('+(e.code||'error')+'). Use Download CSV instead.');$('send').disabled=false;return;}
+  }
+  sentDoc={at:rec.at,by:me};handoffs.unshift(rec);
+  if(db){try{await db.collection(`${path}/handoffs`).doc().set(rec);await db.doc(`${path}/meta/status`).set(sentDoc);}catch(e){toast('Sent, but the record did not save: '+(e.message||e.code));}}
+  renderAll();
+}
+
+// ---------- Gmail draft to procurement ----------
+async function draftMail(){
+  const to=(($('pmail')&&$('pmail').value)||pmail).trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)){mailMsg='Enter a valid procurement email address first.';handoff();return;}
+  pmail=to;try{localStorage.setItem('fr-pmail',to);}catch(e){}
+  const L=lines(),buy=L.filter(r=>decisions[r.sku].qty>0),pause=L.filter(r=>decisions[r.sku].qty===0);
+  const units=buy.reduce((a,r)=>a+decisions[r.sku].qty,0);
+  const drive=handoffs.find(h=>h.url);
+  const rowsH=buy.map(r=>{const d=decisions[r.sku];return `<tr><td>${esc(r.sku)}</td><td>${esc(r.name)}</td><td style="text-align:right">${fmt(d.qty)}</td><td>${esc(distName(r.sku).name)}</td><td>${esc(d.note||'')}</td></tr>`;}).join('');
+  const html=`<p>Hi team,</p><p>Raghav approved <b>${buy.length} reorder lines (${fmt(units)} units)</b> in the ${new Date(D.runDate+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'})} planning run. Please raise the POs in Zoho as usual.</p>
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px"><tr><th>SKU</th><th>Name</th><th>Qty</th><th>Distributor</th><th>Note</th></tr>${rowsH}</table>
+${pause.length?`<p><b>Pause the next order</b> (enough stock): ${pause.map(r=>esc(r.name)).join(', ')}.</p>`:''}
+${drive?`<p>Sheet in Google Drive: <a href="${esc(drive.url)}">${esc(drive.url)}</a></p>`:''}<p>The CSV is attached.</p>`;
+  const text=`Raghav approved ${buy.length} reorder lines (${units} units). Please raise the POs in Zoho.\n\n`+buy.map(r=>`${r.sku} ${r.name}: ${decisions[r.sku].qty} units`).join('\n')+(pause.length?`\n\nPause next order: ${pause.map(r=>r.name).join(', ')}`:'');
+  const b64=btoa(unescape(encodeURIComponent(csv())));
+  $('gm').disabled=true;mailMsg='Creating the Gmail draft…';
+  try{
+    const res=await mcp.callTool('Gmail','create_draft',{to:[to],subject:`Approved reorders, ${D.runDate}: ${buy.length} SKUs, ${units} units`,body:text,htmlBody:html,
+      attachments:[{content:b64,filename:`freshroots-approved-${D.runDate}.csv`,mimeType:'text/csv'}]});
+    const p=res&&res.payload;const url=p&&p.viewUrl;
+    mailMsg=url?`Draft ready. <a href="${esc(url)}" target="_blank" rel="noopener" style="color:var(--re-b)">Open it in Gmail</a>, check it and press Send.`:'Draft created in your Gmail drafts. Check it and press Send.';
+    toast('Gmail draft created.');
+  }catch(e){mailMsg='Gmail could not create the draft ('+esc(e.code||'error')+'). Use Download CSV instead.';}
+  handoff();
+}
+
+// ---------- Claude reasons (sample) ----------
+async function draftReasons(btn){
+  if(!sample) return;btn.disabled=true;btn.textContent='Claude is writing…';
+  const q=recs.filter(needs),c=q.length;
+  const msg=P.buildExplainUserMessage(q,{needs_decision:c,reorder_now:recs.filter(r=>r.status==='reorder_now').length,pause:recs.filter(r=>r.status==='pause').length});
+  try{
+    const out=await sample.json([{role:'user',content:P.EXPLAIN_SYSTEM_PROMPT+'\n\nDATA:\n'+msg}],{modelTier:'quick'});
+    const m=P.mergeExplanations(q,JSON.stringify(out),'',[c]);
+    const obj={};m.reasons.forEach((v,k)=>obj[k]=v);reasons=obj;
+    const used=Object.values(obj).filter(v=>v.source==='llm').length;
+    toast(`Claude wrote ${used} of ${q.length} reasons. ${q.length-used} kept the rule template.`);
+    if(db){try{await db.doc(`${path}/meta/reasons`).set({items:obj,at:new Date().toISOString()});}catch(e){}}
+  }catch(e){toast(e&&e.code==='not_granted'?'Claude is not allowed in this view.':'Claude could not write reasons right now ('+(e.code||'error')+').');}
+  btn.disabled=false;btn.textContent='Rewrite reasons with Claude';renderAll();
+}
+
+// ---------- connections ----------
+function conns(){
+  const st=(k,ok,warn)=>k==='ok'?`<span class="status" style="color:var(--ok-b)"><i class="dot ${ok==='live'?'live':''}"></i>${ok==='live'?'Live':'Connected'}</span>`:k==='pending'?`<span class="status" style="color:var(--t3)"><i class="dot off"></i>Checking</span>`:`<span class="status" style="color:var(--t3)"><i class="dot off"></i>${warn||'Unavailable here'}</span>`;
+  const row=(t,d,s,extra)=>`<div class="conn">${glyph('link')}<div><div class="t">${t}</div><div class="d">${d}</div>${extra||''}</div>${s}</div>`;
+  const off=(w,c)=>`<span class="status" style="color:var(${c||'--t3'})"><i class="dot ${c?'alert':'off'}"></i>${w}</span>`;
+  $('conns').innerHTML=
+    row('Shared decisions','Every approval, edit and hand-off is saved here, so Raghav and procurement see the same run.',st(caps.db,'live'))+
+    row('Claude','Writes the one-line reason per SKU. The number check keeps or rejects each one.',st(caps.sample),caps.sample==='ok'?`<button class="btn sm" id="claude" style="margin-top:8px">${Object.keys(reasons).length?'Rewrite reasons with Claude':'Write reasons with Claude'}</button>`:'')+
+    row('Google Drive','Saves each approved list as a Sheet in “Freshroots Demand Planner / Approved reorder lists”.',st(caps.mcp,'ok','Not allowed here'))+
+    row('Gmail','Drafts the hand-off email to procurement with the CSV attached. You still press Send.',st(caps.mcp,'ok','Not allowed here'))+
+    row('File download','CSV of the approved list.',st(caps.downloads))+
+    row('SAP sales + stock','Case files loaded: sales W27–W42, stock '+D.stockAsOf+'. Scheduled export not set up yet.',`<span class="status" style="color:#FBBF24"><i class="dot warn"></i>Snapshot</span>`)+
+    row('Zoho Inventory','Open POs. Not connected, so cover assumes nothing is on order.',off('Not connected','--now-a'))+
+    row('Neon Postgres + Vercel','Production database and hosting for the scheduled runs. Neon is blocked by the network allowlist for now.',off('Waiting'));
+  const b=$('claude');if(b)b.onclick=()=>draftReasons(b);
+  const okc=Object.values(caps).filter(v=>v==='ok').length;$('connsum').textContent=`${okc} of 4 live in this view`;
+}
+
+// ---------- render + input ----------
+function renderAll(){top();tiles();list();detail();handoff();conns();setTimeout(()=>{firstPaint=false;},700);}
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,4500);}
+$('rows').addEventListener('click',e=>{const b=e.target.closest('.row');if(!b)return;sel=b.dataset.sku;editing=null;list();detail();});
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;tab=b.dataset.tab;editing=null;list();detail();});
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,textarea'))return;
+  const v=visible(),i=v.findIndex(r=>r.sku===sel);
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=v[Math.max(0,Math.min(v.length-1,i+(e.key==='ArrowDown'?1:-1)))];if(n){sel=n.sku;editing=null;list();detail();const el=document.querySelector(`.row[data-sku="${sel}"]`);el&&el.focus();}}
+  if((e.key==='a'||e.key==='A')&&!e.metaKey&&!e.ctrlKey){const r=recs.find(x=>x.sku===sel);if(r&&needs(r)&&!decisions[r.sku]&&!sentDoc)decide(r,{decision:'approved',qty:r.recommendedQty,note:''});}
+});
+renderAll();
+
+// ---------- capabilities ----------
+(async()=>{
+  const use=n=>window.claude&&window.claude.use?window.claude.use(n).catch(()=>null):Promise.resolve(null);
+  const [d,s,m,dl,u]=await Promise.all([use('db'),use('sample'),use('mcp'),use('downloads'),use('user')]);
+  db=d;sample=s;mcp=m;downloads=dl;userCap=u;
+  caps={db:d?'ok':'no',sample:s?'ok':'no',mcp:m?'ok':'no',downloads:dl?'ok':'no'};
+  if(u){try{me=await u.id();const v=await u.me();meName=(v&&v.name)||'';$('whoname').textContent=meName||'You';$('av').textContent=(meName||'Y').slice(0,1).toUpperCase();}catch(e){}}
+  if(db){
+    db.collection(`${path}/decisions`).onSnapshot(snap=>{const o={};snap.docs.forEach(x=>{if(x.exists)o[x.id]=x.data();});decisions=o;resolveNames();renderAll();},e=>{caps.db='no';renderAll();});
+    db.collection(`${path}/handoffs`).onSnapshot(snap=>{handoffs=snap.docs.map(x=>x.data()).sort((a,b)=>String(b.at).localeCompare(String(a.at)));renderAll();});
+    db.doc(`${path}/meta/status`).onSnapshot(s=>{sentDoc=s.exists?s.data():null;renderAll();});
+    db.doc(`${path}/meta/reasons`).onSnapshot(s=>{if(s.exists&&s.data().items){reasons=s.data().items;renderAll();}});
+  }
+  renderAll();
+})();
+async function resolveNames(){
+  if(!userCap||!userCap.profiles)return;const ids=[...new Set(Object.values(decisions).map(d=>d.by).filter(Boolean))].filter(id=>!(id in users));
+  if(!ids.length)return;try{const ps=await userCap.profiles(ids);ids.forEach(id=>{users[id]=(ps&&ps[id]&&ps[id].name)||'a teammate';});detail();}catch(e){}
+}
+})();
+</script>

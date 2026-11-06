@@ -1,0 +1,401 @@
+sku,name,category,perishable,standard_qty,unit_price,launch_date,active
+FR-10001,Freshroots Rava 1kg,Staples,false,250,97,2026-09-14,true
+FR-10002,Freshroots Malvani masala 100g,Spices & masala,false,500,75,2026-08-31,true
+FR-10003,Freshroots Banana chips 90g,Chips & snacks,false,2100,22,2026-08-17,true
+FR-10004,Freshroots Kanda lasun masala 200g,Spices & masala,false,250,104,2026-08-31,true
+FR-10005,Freshroots Masala puffs 150g,Chips & snacks,false,550,40,2026-08-17,true
+FR-10006,Freshroots Nachos 90g,Chips & snacks,false,350,39,2026-09-28,true
+FR-10007,Freshroots Kolam rice 500g,Staples,false,2800,422,2026-08-31,true
+FR-10008,Freshroots Malvani masala 200g,Spices & masala,false,250,31,2026-09-21,true
+FR-10009,Freshroots Jeera biscuit 300g,Biscuits & rusk,false,1450,24,2024-05-06,true
+FR-10010,Freshroots Bajra atta 5kg,Staples,false,2450,83,2025-06-02,true
+FR-10011,Freshroots Nankhatai 300g,Biscuits & rusk,false,2700,91,2024-07-29,true
+FR-10012,Freshroots Chakli 1kg,Namkeen,false,1400,43,2025-05-05,true
+FR-10013,Freshroots Shev 1kg,Namkeen,false,2000,153,2024-01-08,true
+FR-10014,Freshroots Coconut cookie 300g,Biscuits & rusk,false,650,117,2023-12-25,true
+FR-10015,Freshroots Pav 250g,Sweets & bakery,true,1750,58,2025-01-27,true
+FR-10016,Freshroots Potato wafers 50g,Chips & snacks,false,1050,57,2024-12-16,true
+FR-10017,Freshroots Corn rings 90g,Chips & snacks,false,150,21,2023-12-04,true
+FR-10018,Freshroots Chikki 500g,Sweets & bakery,true,100,113,2023-11-20,true
+FR-10019,Freshroots Moong dal 400g,Namkeen,false,2200,36,2024-08-19,true
+FR-10020,Freshroots Corn rings 50g,Chips & snacks,false,1200,18,2024-07-01,true
+FR-10021,Freshroots Chana dal 5kg,Staples,false,750,90,2024-02-19,true
+FR-10022,Freshroots Bhujia 400g,Namkeen,false,1900,153,2025-08-18,true
+FR-10023,Freshroots Toast rusk 300g,Biscuits & rusk,false,1000,94,2025-06-02,true
+FR-10024,Freshroots Kolam rice 500g,Staples,false,850,355,2024-03-18,true
+FR-10025,Freshroots Bhujia 150g,Namkeen,false,5100,111,2025-02-24,true
+FR-10026,Freshroots Malvani masala 200g,Spices & masala,false,600,117,2024-12-09,true
+FR-10027,Freshroots Chakli 1kg,Namkeen,false,1800,146,2025-06-09,true
+FR-10028,Freshroots Masala puffs 50g,Chips & snacks,false,600,37,2024-09-02,true
+FR-10029,Freshroots Kolam rice 500g,Staples,false,500,243,2024-06-17,true
+FR-10030,Freshroots Garam masala 50g,Spices & masala,false,1950,47,2024-12-23,true
+FR-10031,Freshroots Malvani masala 200g,Spices & masala,false,3600,56,2024-08-26,true
+FR-10032,Freshroots Corn rings 90g,Chips & snacks,false,4150,21,2025-03-03,true
+FR-10033,Freshroots Turmeric 50g,Spices & masala,false,400,79,2024-07-01,true
+FR-10034,Freshroots Malvani masala 200g,Spices & masala,false,450,132,2024-10-07,true
+FR-10035,Freshroots Fruit cake 500g,Sweets & bakery,true,700,118,2024-03-18,true
+FR-10036,Freshroots Kanda lasun masala 50g,Spices & masala,false,350,54,2024-05-27,true
+FR-10037,Freshroots Besan 1kg,Staples,false,350,166,2024-05-27,true
+FR-10038,Freshroots Sev 400g,Namkeen,false,1050,177,2024-03-25,true
+FR-10039,Freshroots Poha 1kg,Staples,false,250,98,2024-05-06,true
+FR-10040,Freshroots Kolam rice 500g,Staples,false,900,407,2024-07-08,true
+FR-10041,Freshroots Nachos 150g,Chips & snacks,false,400,17,2024-09-30,true
+FR-10042,Freshroots Masala puffs 150g,Chips & snacks,false,250,13,2024-10-07,true
+FR-10043,Freshroots Nankhatai 200g,Biscuits & rusk,false,500,68,2023-11-06,true
+FR-10044,Freshroots Mixture 400g,Namkeen,false,2550,134,2025-07-14,true
+FR-10045,Freshroots Kanda lasun masala 100g,Spices & masala,false,300,79,2024-10-14,true
+FR-10046,Freshroots Khari 300g,Biscuits & rusk,false,4450,94,2025-06-02,true
+FR-10047,Freshroots Jeera biscuit 200g,Biscuits & rusk,false,450,96,2024-03-04,true
+FR-10048,Freshroots Coconut cookie 300g,Biscuits & rusk,false,400,114,2024-08-12,true
+FR-10049,Freshroots Moong dal 1kg,Namkeen,false,2000,174,2024-03-25,true
+FR-10050,Freshroots Khari 500g,Biscuits & rusk,false,1800,53,2024-12-02,true
+FR-10051,Freshroots Sabudana 1kg,Staples,false,2400,214,2024-04-29,true
+FR-10052,Freshroots Nankhatai 500g,Biscuits & rusk,false,1600,73,2023-12-04,true
+FR-10053,Freshroots Pav 500g,Sweets & bakery,true,1200,59,2024-07-15,true
+FR-10054,Freshroots Khari 300g,Biscuits & rusk,false,1050,24,2024-09-16,true
+FR-10055,Freshroots Corn rings 150g,Chips & snacks,false,4950,51,2023-11-13,true
+FR-10056,Freshroots Karanji 500g,Sweets & bakery,true,200,80,2025-03-17,true
+FR-10057,Freshroots Corn rings 150g,Chips & snacks,false,4500,32,2024-10-28,true
+FR-10058,Freshroots Pav 250g,Sweets & bakery,true,650,97,2025-08-25,true
+FR-10059,Freshroots Moong dal 1kg,Staples,false,1900,257,2024-12-23,true
+FR-10060,Freshroots Besan 500g,Staples,false,4050,117,2023-12-11,true
+FR-10061,Freshroots Nankhatai 500g,Biscuits & rusk,false,450,62,2024-02-12,true
+FR-10062,Freshroots Coconut cookie 500g,Biscuits & rusk,false,3150,39,2025-07-14,true
+FR-10063,Freshroots Masala puffs 150g,Chips & snacks,false,350,30,2024-03-25,true
+FR-10064,Freshroots Modak pack 500g,Sweets & bakery,true,100,188,2023-12-18,true
+FR-10065,Freshroots Toast rusk 300g,Biscuits & rusk,false,4550,44,2024-05-20,true
+FR-10066,Freshroots Masala puffs 150g,Chips & snacks,false,3450,46,2024-02-12,true
+FR-10067,Freshroots Besan 500g,Staples,false,2850,379,2024-03-25,true
+FR-10068,Freshroots Sev 400g,Namkeen,false,3750,179,2023-12-04,true
+FR-10069,Freshroots Nachos 150g,Chips & snacks,false,5250,52,2024-11-04,true
+FR-10070,Freshroots Turmeric 50g,Spices & masala,false,2800,139,2024-08-26,true
+FR-10071,Freshroots Corn rings 150g,Chips & snacks,false,1850,43,2024-04-15,true
+FR-10072,Freshroots Corn rings 50g,Chips & snacks,false,1750,32,2024-04-22,true
+FR-10073,Freshroots Potato wafers 150g,Chips & snacks,false,650,35,2024-05-13,true
+FR-10074,Freshroots Turmeric 200g,Spices & masala,false,4050,20,2024-04-08,true
+FR-10075,Freshroots Turmeric 200g,Spices & masala,false,350,66,2024-05-27,true
+FR-10076,Freshroots Jeera biscuit 500g,Biscuits & rusk,false,850,60,2023-10-09,true
+FR-10077,Freshroots Coconut cookie 300g,Biscuits & rusk,false,2650,85,2024-10-28,true
+FR-10078,Freshroots Goda masala 200g,Spices & masala,false,250,75,2023-11-27,true
+FR-10079,Freshroots Coconut cookie 200g,Biscuits & rusk,false,850,21,2025-01-13,true
+FR-10080,Freshroots Kolam rice 500g,Staples,false,1500,58,2025-01-06,true
+FR-10081,Freshroots Potato wafers 50g,Chips & snacks,false,350,39,2025-06-16,true
+FR-10082,Freshroots Garam masala 200g,Spices & masala,false,4700,28,2024-10-14,true
+FR-10083,Freshroots Fruit cake 500g,Sweets & bakery,true,300,235,2024-10-21,true
+FR-10084,Freshroots Rava 500g,Staples,false,950,277,2025-02-24,true
+FR-10085,Freshroots Khari 300g,Biscuits & rusk,false,650,77,2025-05-19,true
+FR-10086,Freshroots Chikki 500g,Sweets & bakery,true,150,210,2023-12-25,true
+FR-10087,Freshroots Sev 150g,Namkeen,false,350,54,2024-06-24,true
+FR-10088,Freshroots Banana chips 50g,Chips & snacks,false,1800,49,2024-09-16,true
+FR-10089,Freshroots Sev 150g,Namkeen,false,450,43,2024-10-21,true
+FR-10090,Freshroots Masala puffs 50g,Chips & snacks,false,3300,52,2025-04-21,true
+FR-10091,Freshroots Shrikhand 250g,Sweets & bakery,true,1700,248,2023-11-27,true
+FR-10092,Freshroots Pav 500g,Sweets & bakery,true,900,195,2025-06-23,true
+FR-10093,Freshroots Banana chips 50g,Chips & snacks,false,850,34,2024-01-15,true
+FR-10094,Freshroots Toast rusk 200g,Biscuits & rusk,false,5700,72,2024-07-01,true
+FR-10095,Freshroots Laddoo 500g,Sweets & bakery,true,250,57,2023-11-06,true
+FR-10096,Freshroots Nankhatai 300g,Biscuits & rusk,false,5250,44,2025-03-31,true
+FR-10097,Freshroots Coconut cookie 300g,Biscuits & rusk,false,600,80,2025-01-27,true
+FR-10098,Freshroots Nankhatai 200g,Biscuits & rusk,false,1050,53,2024-07-08,true
+FR-10099,Freshroots Shrikhand 250g,Sweets & bakery,true,400,61,2025-02-17,true
+FR-10100,Freshroots Coconut cookie 200g,Biscuits & rusk,false,1000,45,2024-08-26,true
+FR-10101,Freshroots Corn rings 90g,Chips & snacks,false,3900,14,2024-02-12,true
+FR-10102,Freshroots Besan 1kg,Staples,false,3050,271,2025-03-03,true
+FR-10103,Freshroots Mixture 200g,Namkeen,false,3350,129,2024-03-18,true
+FR-10104,Freshroots Chana dal 500g,Staples,false,300,322,2023-11-20,true
+FR-10105,Freshroots Nachos 90g,Chips & snacks,false,1700,49,2024-05-20,true
+FR-10106,Freshroots Sabudana 500g,Staples,false,700,411,2023-11-06,true
+FR-10107,Freshroots Bhujia 400g,Namkeen,false,550,170,2024-06-17,true
+FR-10108,Freshroots Kolam rice 1kg,Staples,false,300,341,2024-09-16,true
+FR-10109,Freshroots Fruit cake 100g,Sweets & bakery,true,800,220,2024-07-08,true
+FR-10110,Freshroots Shrikhand 250g,Sweets & bakery,true,1350,189,2023-11-27,true
+FR-10111,Freshroots Modak pack 100g,Sweets & bakery,true,100,35,2025-01-06,true
+FR-10112,Freshroots Fruit cake 100g,Sweets & bakery,true,1300,129,2025-08-04,true
+FR-10113,Freshroots Potato wafers 90g,Chips & snacks,false,250,33,2024-05-20,true
+FR-10114,Freshroots Malvani masala 50g,Spices & masala,false,1250,96,2025-01-13,true
+FR-10115,Freshroots Moong dal 400g,Namkeen,false,700,136,2025-06-30,true
+FR-10116,Freshroots Goda masala 50g,Spices & masala,false,300,106,2023-10-02,true
+FR-10117,Freshroots Shrikhand 100g,Sweets & bakery,true,300,61,2024-05-20,true
+FR-10118,Freshroots Rava 5kg,Staples,false,1450,352,2024-07-22,true
+FR-10119,Freshroots Chakli 400g,Namkeen,false,1000,17,2025-03-10,true
+FR-10120,Freshroots Masala puffs 150g,Chips & snacks,false,2500,13,2025-04-21,true
+FR-10121,Freshroots Banana chips 90g,Chips & snacks,false,250,48,2025-07-28,true
+FR-10122,Freshroots Shrikhand 100g,Sweets & bakery,true,200,43,2025-06-30,true
+FR-10123,Freshroots Moong dal 1kg,Namkeen,false,400,28,2023-12-25,true
+FR-10124,Freshroots Goda masala 50g,Spices & masala,false,1800,61,2025-01-27,true
+FR-10125,Freshroots Coconut cookie 500g,Biscuits & rusk,false,1400,110,2025-01-20,true
+FR-10126,Freshroots Pav 100g,Sweets & bakery,true,450,112,2025-07-28,true
+FR-10127,Freshroots Banana chips 150g,Chips & snacks,false,5350,15,2025-02-03,true
+FR-10128,Freshroots Sev 150g,Namkeen,false,1100,139,2024-08-12,true
+FR-10129,Freshroots Kanda lasun masala 100g,Spices & masala,false,650,117,2024-09-02,true
+FR-10130,Freshroots Malvani masala 50g,Spices & masala,false,1550,38,2025-01-27,true
+FR-10131,Freshroots Shev 150g,Namkeen,false,950,146,2025-08-18,true
+FR-10132,Freshroots Chivda 200g,Namkeen,false,1000,100,2024-12-02,true
+FR-10133,Freshroots Besan 5kg,Staples,false,1950,180,2025-01-06,true
+FR-10134,Freshroots Moong dal 500g,Staples,false,450,248,2025-08-18,true
+FR-10135,Freshroots Banana chips 50g,Chips & snacks,false,2400,34,2024-09-09,true
+FR-10136,Freshroots Sev 1kg,Namkeen,false,250,64,2024-04-08,true
+FR-10137,Freshroots Nachos 90g,Chips & snacks,false,800,21,2024-07-08,true
+FR-10138,Freshroots Kanda lasun masala 50g,Spices & masala,false,1000,102,2024-07-22,true
+FR-10139,Freshroots Karanji 100g,Sweets & bakery,true,1500,127,2025-06-16,true
+FR-10140,Freshroots Moong dal 200g,Namkeen,false,1500,153,2024-06-17,true
+FR-10141,Freshroots Potato wafers 50g,Chips & snacks,false,350,17,2024-01-29,true
+FR-10142,Freshroots Masala puffs 150g,Chips & snacks,false,400,32,2024-09-09,true
+FR-10143,Freshroots Karanji 100g,Sweets & bakery,true,200,247,2025-06-09,true
+FR-10144,Freshroots Turmeric 100g,Spices & masala,false,300,53,2025-02-10,true
+FR-10145,Freshroots Chivda 150g,Namkeen,false,400,82,2024-01-01,true
+FR-10146,Freshroots Laddoo 500g,Sweets & bakery,true,750,37,2023-12-18,true
+FR-10147,Freshroots Mixture 1kg,Namkeen,false,2000,78,2025-08-04,true
+FR-10148,Freshroots Goda masala 50g,Spices & masala,false,1100,134,2025-06-09,true
+FR-10149,Freshroots Jeera biscuit 200g,Biscuits & rusk,false,1600,33,2024-10-14,true
+FR-10150,Freshroots Coconut cookie 200g,Biscuits & rusk,false,3900,46,2025-06-30,true
+FR-10151,Freshroots Fruit cake 250g,Sweets & bakery,true,1050,177,2024-04-01,true
+FR-10152,Freshroots Rava 500g,Staples,false,4050,134,2025-06-02,true
+FR-10153,Freshroots Jowar atta 5kg,Staples,false,3550,111,2024-11-25,true
+FR-10154,Freshroots Garam masala 100g,Spices & masala,false,550,19,2024-08-12,true
+FR-10155,Freshroots Moong dal 5kg,Staples,false,4150,433,2024-02-05,true
+FR-10156,Freshroots Malvani masala 100g,Spices & masala,false,600,58,2024-05-27,true
+FR-10157,Freshroots Chilli powder 50g,Spices & masala,false,3700,66,2024-05-20,true
+FR-10158,Freshroots Sabudana 5kg,Staples,false,1050,339,2024-08-05,true
+FR-10159,Freshroots Potato wafers 150g,Chips & snacks,false,2350,16,2024-12-02,true
+FR-10160,Freshroots Goda masala 50g,Spices & masala,false,1650,128,2024-08-26,true
+FR-10161,Freshroots Besan 1kg,Staples,false,450,412,2024-04-29,true
+FR-10162,Freshroots Laddoo 500g,Sweets & bakery,true,250,119,2023-12-25,true
+FR-10163,Freshroots Jeera biscuit 500g,Biscuits & rusk,false,3450,31,2024-04-29,true
+FR-10164,Freshroots Khari 300g,Biscuits & rusk,false,2300,76,2024-12-30,true
+FR-10165,Freshroots Karanji 100g,Sweets & bakery,true,1350,63,2025-03-03,true
+FR-10166,Freshroots Laddoo 100g,Sweets & bakery,true,800,112,2025-04-28,true
+FR-10167,Freshroots Masala puffs 90g,Chips & snacks,false,4500,52,2024-05-06,true
+FR-10168,Freshroots Nankhatai 500g,Biscuits & rusk,false,1900,58,2025-04-21,true
+FR-10169,Freshroots Nankhatai 200g,Biscuits & rusk,false,850,107,2025-03-17,true
+FR-10170,Freshroots Turmeric 100g,Spices & masala,false,1100,28,2025-06-30,true
+FR-10171,Freshroots Moong dal 500g,Staples,false,5000,433,2024-09-23,true
+FR-10172,Freshroots Potato wafers 50g,Chips & snacks,false,300,54,2024-08-05,true
+FR-10173,Freshroots Bhujia 200g,Namkeen,false,750,94,2024-12-30,true
+FR-10174,Freshroots Rava 5kg,Staples,false,3950,258,2024-09-30,true
+FR-10175,Freshroots Shev 150g,Namkeen,false,550,168,2023-10-30,true
+FR-10176,Freshroots Shrikhand 100g,Sweets & bakery,true,600,225,2023-10-16,true
+FR-10177,Freshroots Kanda lasun masala 200g,Spices & masala,false,4650,20,2024-12-09,true
+FR-10178,Freshroots Nankhatai 300g,Biscuits & rusk,true,1450,48,2025-05-12,true
+FR-10179,Freshroots Chivda 200g,Namkeen,false,1500,45,2025-01-13,true
+FR-10180,Freshroots Chivda 1kg,Namkeen,false,4300,172,2024-12-09,true
+FR-10181,Freshroots Sabudana 5kg,Staples,false,650,62,2024-04-08,true
+FR-10182,Freshroots Toast rusk 200g,Biscuits & rusk,false,1350,83,2025-06-30,true
+FR-10183,Freshroots Masala puffs 50g,Chips & snacks,false,2800,32,2025-03-17,true
+FR-10184,Freshroots Kanda lasun masala 50g,Spices & masala,false,2500,122,2024-07-08,true
+FR-10185,Freshroots Shrikhand 500g,Sweets & bakery,true,1600,208,2024-01-01,true
+FR-10186,Freshroots Rava 5kg,Staples,false,500,286,2024-12-02,true
+FR-10187,Freshroots Corn rings 90g,Chips & snacks,false,5650,31,2024-06-24,true
+FR-10188,Freshroots Moong dal 400g,Namkeen,false,3200,17,2024-05-20,true
+FR-10189,Freshroots Besan 500g,Staples,false,1600,284,2024-01-01,true
+FR-10190,Freshroots Moong dal 1kg,Staples,false,650,304,2025-07-28,true
+FR-10191,Freshroots Chilli powder 50g,Spices & masala,false,450,139,2025-06-23,true
+FR-10192,Freshroots Karanji 100g,Sweets & bakery,true,500,171,2025-05-26,true
+FR-10193,Freshroots Jeera biscuit 300g,Biscuits & rusk,false,2200,89,2024-02-26,true
+FR-10194,Freshroots Corn rings 90g,Chips & snacks,false,450,13,2024-02-19,true
+FR-10195,Freshroots Garam masala 100g,Spices & masala,false,5400,116,2024-04-15,true
+FR-10196,Freshroots Pav 100g,Sweets & bakery,true,1050,219,2024-05-27,true
+FR-10197,Freshroots Banana chips 90g,Chips & snacks,false,400,26,2025-05-05,true
+FR-10198,Freshroots Nankhatai 300g,Biscuits & rusk,true,250,74,2024-03-11,true
+FR-10199,Freshroots Laddoo 500g,Sweets & bakery,true,1650,49,2023-11-13,true
+FR-10200,Freshroots Jeera biscuit 500g,Biscuits & rusk,false,1300,77,2025-04-21,true
+FR-10201,Freshroots Jeera biscuit 300g,Biscuits & rusk,false,3650,71,2025-08-11,true
+FR-10202,Freshroots Chakli 150g,Namkeen,false,2950,174,2023-12-18,true
+FR-10203,Freshroots Banana chips 90g,Chips & snacks,false,3250,46,2025-08-18,true
+FR-10204,Freshroots Kanda lasun masala 50g,Spices & masala,false,300,27,2024-01-29,true
+FR-10205,Freshroots Toor dal 5kg,Staples,false,850,266,2024-08-05,true
+FR-10206,Freshroots Potato wafers 90g,Chips & snacks,false,300,36,2024-09-30,true
+FR-10207,Freshroots Toor dal 5kg,Staples,false,550,417,2024-01-08,true
+FR-10208,Freshroots Mixture 400g,Namkeen,false,3550,73,2024-11-04,true
+FR-10209,Freshroots Nachos 150g,Chips & snacks,false,1000,50,2024-04-15,true
+FR-10210,Freshroots Masala puffs 150g,Chips & snacks,false,400,26,2025-03-03,true
+FR-10211,Freshroots Farsan 1kg,Namkeen,false,3200,165,2025-06-02,true
+FR-10212,Freshroots Garam masala 50g,Spices & masala,false,600,62,2024-05-06,true
+FR-10213,Freshroots Nankhatai 500g,Biscuits & rusk,false,300,36,2024-12-02,true
+FR-10214,Freshroots Nankhatai 300g,Biscuits & rusk,false,250,103,2023-11-13,true
+FR-10215,Freshroots Farsan 150g,Namkeen,false,4000,124,2024-02-19,true
+FR-10216,Freshroots Toast rusk 500g,Biscuits & rusk,false,500,39,2023-10-30,true
+FR-10217,Freshroots Coconut cookie 500g,Biscuits & rusk,false,2200,105,2024-11-04,true
+FR-10218,Freshroots Bhujia 1kg,Namkeen,false,1400,166,2023-12-18,true
+FR-10219,Freshroots Toast rusk 200g,Biscuits & rusk,false,800,96,2024-06-17,true
+FR-10220,Freshroots Malvani masala 50g,Spices & masala,false,3650,70,2025-05-26,true
+FR-10221,Freshroots Rava 1kg,Staples,false,4750,191,2024-05-20,true
+FR-10222,Freshroots Sev 150g,Namkeen,false,700,15,2024-09-02,true
+FR-10223,Freshroots Moong dal 200g,Namkeen,false,1150,69,2024-08-05,true
+FR-10224,Freshroots Potato wafers 150g,Chips & snacks,false,2150,47,2025-03-31,true
+FR-10225,Freshroots Toor dal 500g,Staples,false,500,390,2024-04-01,true
+FR-10226,Freshroots Nankhatai 500g,Biscuits & rusk,false,650,77,2024-02-26,true
+FR-10227,Freshroots Chilli powder 200g,Spices & masala,false,900,135,2024-12-16,true
+FR-10228,Freshroots Turmeric 200g,Spices & masala,false,900,124,2025-07-07,true
+FR-10229,Freshroots Farsan 200g,Namkeen,false,3400,163,2025-08-11,true
+FR-10230,Freshroots Nankhatai 200g,Biscuits & rusk,false,350,54,2024-06-03,true
+FR-10231,Freshroots Fruit cake 100g,Sweets & bakery,true,500,222,2024-11-04,true
+FR-10232,Freshroots Bajra atta 500g,Staples,false,600,98,2025-08-04,true
+FR-10233,Freshroots Toor dal 1kg,Staples,false,4550,399,2025-01-06,true
+FR-10234,Freshroots Sabudana 5kg,Staples,false,5100,166,2024-04-29,true
+FR-10235,Freshroots Toor dal 500g,Staples,false,2550,384,2025-07-14,true
+FR-10236,Freshroots Nankhatai 500g,Biscuits & rusk,false,550,41,2024-02-26,true
+FR-10237,Freshroots Goda masala 200g,Spices & masala,false,4300,71,2024-03-18,true
+FR-10238,Freshroots Moong dal 200g,Namkeen,false,600,104,2025-06-02,true
+FR-10239,Freshroots Chakli 400g,Namkeen,false,300,81,2025-08-25,true
+FR-10240,Freshroots Jeera biscuit 200g,Biscuits & rusk,false,5000,80,2024-12-30,true
+FR-10241,Freshroots Laddoo 500g,Sweets & bakery,true,250,105,2024-11-25,true
+FR-10242,Freshroots Poha 1kg,Staples,false,5800,350,2025-05-26,true
+FR-10243,Freshroots Toast rusk 500g,Biscuits & rusk,false,350,32,2024-03-04,true
+FR-10244,Freshroots Masala puffs 150g,Chips & snacks,false,1350,30,2024-02-19,true
+FR-10245,Freshroots Nachos 90g,Chips & snacks,false,1500,40,2025-03-10,true
+FR-10246,Freshroots Chivda 150g,Namkeen,false,1600,110,2024-08-26,true
+FR-10247,Freshroots Toast rusk 200g,Biscuits & rusk,true,100,56,2023-10-30,true
+FR-10248,Freshroots Bhujia 150g,Namkeen,false,2150,143,2025-04-07,true
+FR-10249,Freshroots Chana dal 1kg,Staples,false,1200,266,2024-04-08,true
+FR-10250,Freshroots Farsan 200g,Namkeen,false,250,107,2024-05-27,true
+FR-10251,Freshroots Turmeric 50g,Spices & masala,false,1100,50,2024-10-07,true
+FR-10252,Freshroots Banana chips 150g,Chips & snacks,false,4900,27,2024-10-14,true
+FR-10253,Freshroots Bhujia 400g,Namkeen,false,550,58,2024-09-02,true
+FR-10254,Freshroots Toast rusk 300g,Biscuits & rusk,false,700,46,2023-11-06,true
+FR-10255,Freshroots Chikki 500g,Sweets & bakery,true,700,198,2024-02-19,true
+FR-10256,Freshroots Goda masala 200g,Spices & masala,false,500,45,2024-07-15,true
+FR-10257,Freshroots Potato wafers 50g,Chips & snacks,false,400,33,2024-07-29,true
+FR-10258,Freshroots Jowar atta 500g,Staples,false,3850,73,2024-10-14,true
+FR-10259,Freshroots Banana chips 150g,Chips & snacks,false,300,55,2025-08-18,true
+FR-10260,Freshroots Moong dal 150g,Namkeen,false,2150,163,2024-12-02,true
+FR-10261,Freshroots Chikki 250g,Sweets & bakery,true,100,118,2024-06-24,true
+FR-10262,Freshroots Garam masala 100g,Spices & masala,false,750,25,2024-03-04,true
+FR-10263,Freshroots Poha 500g,Staples,false,250,333,2023-11-13,true
+FR-10264,Freshroots Potato wafers 150g,Chips & snacks,false,2800,16,2023-12-11,true
+FR-10265,Freshroots Toast rusk 500g,Biscuits & rusk,false,3450,75,2024-07-08,true
+FR-10266,Freshroots Turmeric 200g,Spices & masala,false,2700,86,2025-05-26,true
+FR-10267,Freshroots Bhujia 150g,Namkeen,false,350,108,2024-02-05,true
+FR-10268,Freshroots Shev 400g,Namkeen,false,1700,124,2025-08-25,true
+FR-10269,Freshroots Corn rings 150g,Chips & snacks,false,600,21,2024-01-08,true
+FR-10270,Freshroots Chakli 1kg,Namkeen,false,5650,27,2025-05-05,true
+FR-10271,Freshroots Bhujia 200g,Namkeen,false,1150,143,2024-10-14,true
+FR-10272,Freshroots Pav 250g,Sweets & bakery,true,250,62,2025-04-07,true
+FR-10273,Freshroots Chilli powder 200g,Spices & masala,false,5300,36,2025-06-09,true
+FR-10274,Freshroots Garam masala 100g,Spices & masala,false,2650,38,2025-05-05,true
+FR-10275,Freshroots Bhujia 150g,Namkeen,false,500,119,2024-01-08,true
+FR-10276,Freshroots Coconut cookie 200g,Biscuits & rusk,false,300,33,2024-01-29,true
+FR-10277,Freshroots Masala puffs 150g,Chips & snacks,false,500,19,2025-06-23,true
+FR-10278,Freshroots Masala puffs 150g,Chips & snacks,false,450,18,2024-11-04,true
+FR-10279,Freshroots Chikki 100g,Sweets & bakery,true,500,226,2024-11-25,true
+FR-10280,Freshroots Besan 500g,Staples,false,2050,135,2025-06-02,true
+FR-10281,Freshroots Sev 150g,Namkeen,false,450,114,2024-09-23,true
+FR-10282,Freshroots Poha 5kg,Staples,false,1200,328,2025-02-10,true
+FR-10283,Freshroots Masala puffs 90g,Chips & snacks,false,400,38,2024-05-20,true
+FR-10284,Freshroots Shrikhand 250g,Sweets & bakery,true,300,204,2025-04-21,true
+FR-10285,Freshroots Corn rings 50g,Chips & snacks,false,550,21,2024-03-04,true
+FR-10286,Freshroots Chikki 100g,Sweets & bakery,true,1750,98,2024-07-22,true
+FR-10287,Freshroots Potato wafers 50g,Chips & snacks,false,300,21,2025-08-18,true
+FR-10288,Freshroots Khari 200g,Biscuits & rusk,true,150,62,2024-02-19,true
+FR-10289,Freshroots Modak pack 500g,Sweets & bakery,true,900,189,2024-07-22,true
+FR-10290,Freshroots Chikki 250g,Sweets & bakery,true,250,32,2023-12-18,true
+FR-10291,Freshroots Rava 1kg,Staples,false,2550,410,2025-03-10,true
+FR-10292,Freshroots Besan 5kg,Staples,false,1550,361,2025-06-30,true
+FR-10293,Freshroots Modak pack 250g,Sweets & bakery,true,1450,88,2025-01-06,true
+FR-10294,Freshroots Chana dal 1kg,Staples,false,800,106,2023-12-11,true
+FR-10295,Freshroots Bajra atta 1kg,Staples,false,4850,404,2024-04-01,true
+FR-10296,Freshroots Jeera biscuit 300g,Biscuits & rusk,false,800,78,2024-04-15,true
+FR-10297,Freshroots Jeera biscuit 300g,Biscuits & rusk,false,1150,115,2023-10-02,true
+FR-10298,Freshroots Mixture 200g,Namkeen,false,1250,150,2025-05-05,true
+FR-10299,Freshroots Chilli powder 50g,Spices & masala,false,4800,33,2023-11-13,true
+FR-10300,Freshroots Bhujia 150g,Namkeen,false,4700,144,2025-05-05,true
+FR-10301,Freshroots Shev 1kg,Namkeen,false,550,170,2024-01-22,true
+FR-10302,Freshroots Chivda 400g,Namkeen,false,600,150,2024-07-08,true
+FR-10303,Freshroots Laddoo 500g,Sweets & bakery,true,800,183,2024-09-02,true
+FR-10304,Freshroots Potato wafers 50g,Chips & snacks,false,300,35,2023-12-11,true
+FR-10305,Freshroots Sev 150g,Namkeen,false,2600,156,2024-11-04,true
+FR-10306,Freshroots Modak pack 500g,Sweets & bakery,true,350,230,2023-11-20,true
+FR-10307,Freshroots Chana dal 500g,Staples,false,300,231,2025-08-04,true
+FR-10308,Freshroots Banana chips 150g,Chips & snacks,false,950,21,2023-12-18,true
+FR-10309,Freshroots Mixture 150g,Namkeen,false,350,144,2024-01-08,true
+FR-10310,Freshroots Malvani masala 100g,Spices & masala,false,1200,87,2025-01-13,true
+FR-10311,Freshroots Turmeric 50g,Spices & masala,false,2800,67,2024-01-08,true
+FR-10312,Freshroots Bajra atta 1kg,Staples,false,850,127,2024-08-19,true
+FR-10313,Freshroots Corn rings 150g,Chips & snacks,false,400,59,2024-09-30,true
+FR-10314,Freshroots Rava 5kg,Staples,false,900,284,2025-02-24,true
+FR-10315,Freshroots Fruit cake 100g,Sweets & bakery,true,400,128,2024-07-29,true
+FR-10316,Freshroots Chivda 400g,Namkeen,false,1300,176,2023-11-13,true
+FR-10317,Freshroots Khari 300g,Biscuits & rusk,false,350,27,2025-08-25,true
+FR-10318,Freshroots Banana chips 90g,Chips & snacks,false,4650,49,2023-11-20,true
+FR-10319,Freshroots Kolam rice 1kg,Staples,false,3900,426,2024-05-20,true
+FR-10320,Freshroots Chana dal 5kg,Staples,false,3300,222,2024-05-27,true
+FR-10321,Freshroots Pav 100g,Sweets & bakery,true,200,162,2023-10-16,true
+FR-10322,Freshroots Jeera biscuit 200g,Biscuits & rusk,false,2750,98,2024-12-23,true
+FR-10323,Freshroots Coconut cookie 200g,Biscuits & rusk,false,750,80,2025-05-05,true
+FR-10324,Freshroots Nachos 150g,Chips & snacks,false,2700,35,2023-12-18,true
+FR-10325,Freshroots Pav 500g,Sweets & bakery,true,1150,170,2023-11-27,true
+FR-10326,Freshroots Chilli powder 50g,Spices & masala,false,3000,42,2024-09-30,true
+FR-10327,Freshroots Chana dal 500g,Staples,false,1600,318,2024-04-29,true
+FR-10328,Freshroots Nachos 90g,Chips & snacks,false,1450,24,2024-12-02,true
+FR-10329,Freshroots Chakli 1kg,Namkeen,false,3850,131,2024-01-29,true
+FR-10330,Freshroots Shev 200g,Namkeen,false,1950,57,2025-03-24,true
+FR-10331,Freshroots Kanda lasun masala 50g,Spices & masala,false,2450,128,2024-02-19,true
+FR-10332,Freshroots Sabudana 5kg,Staples,false,3250,159,2024-09-02,true
+FR-10333,Freshroots Coconut cookie 200g,Biscuits & rusk,false,900,54,2024-04-08,true
+FR-10334,Freshroots Mixture 400g,Namkeen,false,350,71,2024-11-04,true
+FR-10335,Freshroots Farsan 150g,Namkeen,false,1700,15,2025-04-28,true
+FR-10336,Freshroots Potato wafers 90g,Chips & snacks,false,4750,42,2024-01-15,true
+FR-10337,Freshroots Sabudana 500g,Staples,false,1750,282,2024-11-04,true
+FR-10338,Freshroots Fruit cake 250g,Sweets & bakery,true,200,232,2024-04-15,true
+FR-10339,Freshroots Khari 500g,Biscuits & rusk,false,1950,29,2025-01-06,true
+FR-10340,Freshroots Nachos 90g,Chips & snacks,false,1850,48,2024-12-30,true
+FR-10341,Freshroots Shev 150g,Namkeen,false,750,127,2023-10-23,true
+FR-10342,Freshroots Corn rings 150g,Chips & snacks,false,350,26,2025-02-03,true
+FR-10343,Freshroots Modak pack 250g,Sweets & bakery,true,150,76,2025-05-26,true
+FR-10344,Freshroots Mixture 400g,Namkeen,false,1000,169,2023-10-30,true
+FR-10345,Freshroots Fruit cake 500g,Sweets & bakery,true,700,223,2024-06-24,true
+FR-10346,Freshroots Bajra atta 1kg,Staples,false,3500,70,2024-07-08,true
+FR-10347,Freshroots Modak pack 100g,Sweets & bakery,true,500,257,2023-10-30,true
+FR-10348,Freshroots Besan 5kg,Staples,false,1850,205,2024-09-09,true
+FR-10349,Freshroots Potato wafers 150g,Chips & snacks,false,650,55,2025-06-16,true
+FR-10350,Freshroots Shrikhand 250g,Sweets & bakery,true,400,97,2024-06-03,true
+FR-10351,Freshroots Chana dal 1kg,Staples,false,1150,280,2025-03-31,true
+FR-10352,Freshroots Chilli powder 100g,Spices & masala,false,4850,74,2024-01-22,true
+FR-10353,Freshroots Poha 1kg,Staples,false,2400,157,2024-11-04,true
+FR-10354,Freshroots Nankhatai 200g,Biscuits & rusk,false,300,51,2024-07-22,true
+FR-10355,Freshroots Sev 200g,Namkeen,false,2100,58,2024-12-02,true
+FR-10356,Freshroots Bhujia 150g,Namkeen,false,1050,112,2024-05-20,true
+FR-10357,Freshroots Malvani masala 100g,Spices & masala,false,1400,63,2024-12-30,true
+FR-10358,Freshroots Goda masala 50g,Spices & masala,false,1450,59,2024-05-06,true
+FR-10359,Freshroots Laddoo 500g,Sweets & bakery,true,1400,169,2025-03-24,true
+FR-10360,Freshroots Chilli powder 100g,Spices & masala,false,350,119,2023-10-16,true
+FR-10361,Freshroots Chikki 100g,Sweets & bakery,true,1400,246,2024-08-12,true
+FR-10362,Freshroots Chilli powder 50g,Spices & masala,false,2900,101,2024-03-11,true
+FR-10363,Freshroots Chikki 500g,Sweets & bakery,true,150,236,2024-09-02,true
+FR-10364,Freshroots Chikki 250g,Sweets & bakery,true,200,243,2025-07-07,true
+FR-10365,Freshroots Laddoo 250g,Sweets & bakery,true,100,182,2024-09-16,true
+FR-10366,Freshroots Garam masala 100g,Spices & masala,false,4150,112,2024-07-22,true
+FR-10367,Freshroots Malvani masala 50g,Spices & masala,false,2350,93,2025-03-31,true
+FR-10368,Freshroots Mixture 1kg,Namkeen,false,450,151,2023-11-20,true
+FR-10369,Freshroots Chilli powder 50g,Spices & masala,false,2100,25,2023-12-25,true
+FR-10370,Freshroots Laddoo 100g,Sweets & bakery,true,200,239,2024-12-23,true
+FR-10371,Freshroots Mixture 400g,Namkeen,false,2750,90,2024-01-08,true
+FR-10372,Freshroots Toor dal 500g,Staples,false,1150,413,2025-02-10,true
+FR-10373,Freshroots Jeera biscuit 500g,Biscuits & rusk,false,1100,91,2024-05-06,true
+FR-10374,Freshroots Masala puffs 50g,Chips & snacks,false,400,34,2024-01-22,true
+FR-10375,Freshroots Moong dal 400g,Namkeen,false,250,97,2025-02-10,true
+FR-10376,Freshroots Rava 5kg,Staples,false,5300,401,2024-01-01,true
+FR-10377,Freshroots Garam masala 50g,Spices & masala,false,2900,132,2024-02-05,true
+FR-10378,Freshroots Coconut cookie 500g,Biscuits & rusk,false,3100,71,2024-11-11,true
+FR-10379,Freshroots Karanji 250g,Sweets & bakery,true,250,129,2024-10-21,true
+FR-10380,Freshroots Nachos 150g,Chips & snacks,false,500,36,2024-09-30,true
+FR-10381,Freshroots Moong dal 400g,Namkeen,false,4050,71,2024-01-08,true
+FR-10382,Freshroots Laddoo 500g,Sweets & bakery,true,1000,154,2025-08-04,true
+FR-10383,Freshroots Chakli 200g,Namkeen,false,300,99,2024-01-01,true
+FR-10384,Freshroots Shev 1kg,Namkeen,false,450,109,2024-08-19,true
+FR-10385,Freshroots Kanda lasun masala 200g,Spices & masala,false,1350,102,2024-04-08,true
+FR-10386,Freshroots Sabudana 1kg,Staples,false,400,240,2025-04-14,true
+FR-10387,Freshroots Chikki 100g,Sweets & bakery,true,100,28,2024-01-15,true
+FR-10388,Freshroots Moong dal 5kg,Staples,false,450,78,2023-11-20,true
+FR-10389,Freshroots Chikki 250g,Sweets & bakery,true,100,43,2023-10-09,true
+FR-10390,Freshroots Chivda 150g,Namkeen,false,500,153,2024-07-29,true
+FR-10391,Freshroots Chivda 150g,Namkeen,false,3750,117,2024-02-26,true
+FR-10392,Freshroots Banana chips 90g,Chips & snacks,false,1750,52,2025-04-07,true
+FR-10393,Freshroots Toor dal 5kg,Staples,false,4750,400,2024-05-20,true
+FR-10394,Freshroots Chikki 100g,Sweets & bakery,true,100,254,2023-12-18,true
+FR-10395,Freshroots Chikki 500g,Sweets & bakery,true,850,172,2025-07-07,true
+FR-10396,Freshroots Masala puffs 90g,Chips & snacks,false,250,49,2024-03-18,true
+FR-10397,Freshroots Turmeric 50g,Spices & masala,false,250,43,2025-04-14,true
+FR-10398,Freshroots Khari 200g,Biscuits & rusk,false,250,73,2024-03-25,true
+FR-10399,Freshroots Chilli powder 100g,Spices & masala,false,700,39,2023-12-11,true
+FR-10400,Freshroots Nankhatai 500g,Biscuits & rusk,false,750,97,2024-11-11,true

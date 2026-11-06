@@ -1,0 +1,2 @@
+sku,name,category,perishable,standard_qty,unit_price,launch_date,active
+SKU-A,Test chivda,Namkeen,false,600,50,2025-01-06,true

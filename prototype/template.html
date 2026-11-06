@@ -1,0 +1,286 @@
+<title>Freshroots Review Queue</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky header with summary tabs, dense review table, hand-off panel */
+:root{--bg:#F4F6F4;--surface:#FFF;--ink:#18211D;--muted:#56635D;--line:#D8E0DB;--accent:#1D6A50;--accent-ink:#fff;--gate:#B86E0E;--now:#B4232C;--warn-bg:#FBEFD9;--ok-bg:#E5F1EA;--band:#DCEBE3;
+--display:"IBM Plex Sans Condensed","Arial Narrow",sans-serif;--body:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101513;--surface:#18201C;--ink:#E3EBE6;--muted:#9AA8A1;--line:#2B3631;--accent:#5DC39B;--accent-ink:#0E1A14;--gate:#EAA43D;--now:#F07A80;--warn-bg:#2A2217;--ok-bg:#16261E;--band:#1E3229;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101513;--surface:#18201C;--ink:#E3EBE6;--muted:#9AA8A1;--line:#2B3631;--accent:#5DC39B;--accent-ink:#0E1A14;--gate:#EAA43D;--now:#F07A80;--warn-bg:#2A2217;--ok-bg:#16261E;--band:#1E3229;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45}
+.wrap{max-width:1440px;margin:0 auto;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:12px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;align-items:flex-end}
+h1{font-family:var(--display);font-size:26px;margin:0;line-height:1.1}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid var(--line);background:var(--surface)}
+.badge.syn{background:var(--warn-bg);border-color:transparent;color:var(--gate);font-weight:600}
+.summary{margin:0;color:var(--muted);max-width:110ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{all:unset;cursor:pointer;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);font-weight:500;font-size:13px;display:inline-flex;gap:6px;align-items:center}
+.tab b{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input,select{font:inherit;font-size:13px;padding:6px 9px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.btn{font:inherit;font-size:13px;font-weight:500;cursor:pointer;padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-height:32px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:3px 9px;min-height:28px;font-size:12.5px}
+.progress{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.meter{width:160px;height:8px;border-radius:4px;background:var(--line);overflow:hidden}.meter i{display:block;height:100%;background:var(--accent)}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:1180px;font-size:13px}
+th{position:sticky;top:0;background:var(--surface);text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line);z-index:1}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.nm{font-weight:600}.sub{font-size:11.5px;color:var(--muted);font-family:var(--mono)}
+.per{color:var(--gate);font-weight:600}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.p-exception{background:var(--warn-bg);color:var(--gate);border:1px solid var(--gate)}
+.p-reorder_now{background:var(--now);color:#fff}
+.p-reorder{background:var(--ok-bg);color:var(--accent);border:1px solid var(--accent)}
+.p-pause{background:var(--line);color:var(--ink)}
+.p-held{background:transparent;color:var(--muted);border:1px dashed var(--muted)}
+.p-ok{color:var(--muted)}
+.rule{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:block;margin-top:3px}
+.reason{max-width:44ch;color:var(--ink)}
+.reason small{display:block;color:var(--muted);font-size:11.5px}
+svg text{fill:var(--muted);font-family:var(--mono);font-size:9px}
+.cov{display:flex;flex-direction:column;gap:2px;font-size:11.5px;font-family:var(--mono);color:var(--muted)}
+.cov b{color:var(--ink);font-weight:600}
+.cov span{white-space:nowrap}
+[hidden]{display:none!important}
+.act{white-space:nowrap}
+.act .btn+.btn{margin-left:4px}
+.done{font-size:12.5px}.done b{font-weight:600}
+.done.approved b,.done.decided b{color:var(--accent)}.done.rejected b{color:var(--now)}.done.edited b{color:var(--gate)}
+.done small{display:block;color:var(--muted);max-width:30ch;white-space:normal}
+tr.editor td{background:var(--band)}
+.ed{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ed label{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.ed input[type=number]{width:100px}.ed input[type=text]{width:340px;max-width:60vw}
+.err{color:var(--now);font-size:12.5px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.panel h2{font-family:var(--display);font-size:20px;margin:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.grid2 label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}
+textarea{font-family:var(--mono);font-size:12px;width:100%;min-height:150px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);padding:8px;box-sizing:border-box}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:10px 14px;border-radius:8px;font-size:13px;display:flex;gap:12px;align-items:center;z-index:5}
+.toast button{all:unset;cursor:pointer;font-weight:600;text-decoration:underline}
+.locked{background:var(--ok-bg);border:1px solid var(--accent);color:var(--ink);border-radius:8px;padding:10px 14px;font-size:13.5px}
+.issues{font-size:12.5px;color:var(--gate)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Freshroots demand planner · prototype</div>
+      <h1 id="title">Review queue</h1>
+    </div>
+    <div class="badges" id="badges"></div>
+  </header>
+  <p class="summary" id="summary"></p>
+  <div class="issues" id="issues"></div>
+  <div id="lock" hidden class="locked"></div>
+
+  <div class="bar">
+    <div class="tabs" id="tabs" role="toolbar" aria-label="Filter by status"></div>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search SKU or name" aria-label="Search SKU or name">
+      <select id="cat" aria-label="Category"></select>
+      <button class="btn" id="bulk" type="button">Approve all undecided here</button>
+      <button class="btn" id="setbtn" type="button" aria-expanded="false">Rule settings</button>
+    </div>
+  </div>
+
+  <div class="panel" id="settings" hidden>
+    <h2>Rule settings</h2>
+    <p class="summary">These are Raghav’s rules. Change a number and re-run to see how the queue changes. Re-running clears decisions made in this run.</p>
+    <div class="grid2" id="setgrid"></div>
+    <div><button class="btn primary" id="rerun" type="button">Re-run with these settings</button> <button class="btn" id="reset" type="button">Restore defaults</button></div>
+  </div>
+
+  <div class="bar">
+    <div class="progress"><span id="prog"></span><span class="meter"><i id="meter"></i></span></div>
+    <button class="btn primary" id="send" type="button">Send approved list to procurement</button>
+  </div>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>SKU</th><th>Signal</th><th>Last 16 weeks</th><th>Weeks of cover</th><th class="num">Qty</th><th>Why</th><th>Decision</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+
+  <div class="panel" id="handoff" hidden>
+    <h2>Hand-off to procurement</h2>
+    <p class="summary" id="hsum"></p>
+    <textarea id="csv" readonly aria-label="Approved list as CSV"></textarea>
+    <div class="tools"><button class="btn" id="copy" type="button">Copy CSV</button><button class="btn primary" id="confirm" type="button">Mark as sent and lock decisions</button><button class="btn" id="hclose" type="button">Back to queue</button></div>
+    <p class="summary">In the live app this emails procurement through Resend with the CSV attached. Procurement still raises every PO in Zoho.</p>
+  </div>
+</div>
+<div class="toast" id="toast" hidden><span id="tmsg"></span><button id="tundo" type="button">Undo</button></div>
+
+<script>/*%%ENGINE%%*/</script>
+<script>
+(function(){
+const DATA=/*%%DATA%%*/null;
+const P=window.Planner;
+const KEY='fr-review-queue-v1';
+const fmt=n=>n==null?'—':Number(n).toLocaleString('en-IN');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LABEL={exception:'Exceptions',reorder_now:'Reorder now',reorder:'Reorder',pause:'Pause',held:'Held',ok:'No action'};
+const PILL={exception:'Needs your call',reorder_now:'Reorder now',reorder:'Reorder',pause:'Pause',held:'Held: data',ok:'No action'};
+const RULE={R1_high_demand:'R1 demand +20%',R2_stockout_risk:'R2 below min',R3_overstock_risk:'R3 above max'};
+const SET=[['highDemandPct','R1 · demand rise that counts as high (0.20 = 20%)'],['highDemandMultiplier','R1 · reorder multiple'],['stockoutWeeks','R2 · minimum weeks of cover'],['overstockWeeks','R3 · maximum weeks of cover'],['festivalUplift','R4 · festival uplift (0.25 = 25%)'],['festivalMonths','R4 · festival months'],['perishableMinWeeks','R5 · perishable minimum weeks'],['perishableMaxWeeks','R5 · perishable maximum weeks'],['minHistoryWeeks','Exception · weeks of history needed'],['distributorSwingPct','Exception · distributor swing (placeholder)'],['distributorMinShare','Exception · distributor minimum share (placeholder)']];
+
+let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+let settings=Object.assign({},P.DEFAULT_SETTINGS,saved.settings||{});
+let decisions=saved.decisions||{};
+let sent=saved.sent||null;
+let filter='exception',q='',cat='',editing=null,lastBulk=null;
+let recs=[];
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({settings,decisions,sent}))}catch(e){}}
+function compute(){
+  recs=P.sortQueue(DATA.skus.map(s=>P.evaluate({master:s.m,weeks:DATA.weeks,weekly:s.w,onHand:s.oh,onOrder:s.oo,historyWeeks:s.hw,swings:s.sw},DATA.runDate,settings)));
+}
+const counts=()=>recs.reduce((a,r)=>(a[r.status]=(a[r.status]||0)+1,a),{});
+const needs=r=>['exception','reorder_now','reorder','pause'].includes(r.status);
+
+function header(){
+  const d=new Date(DATA.runDate+'T00:00:00');
+  document.getElementById('title').textContent=d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short',year:'numeric'})+' run';
+  const fest=recs[0]&&recs[0].festival;
+  document.getElementById('badges').innerHTML=`<span class="badge syn">Synthetic sample data, not Freshroots figures</span><span class="badge">Sales to week of ${DATA.weeks[DATA.weeks.length-1]}</span><span class="badge">${recs.length} SKUs planned</span>${fest?'<span class="badge">Festival uplift on</span>':''}`;
+  const c=counts();const risk=recs.filter(needs).reduce((a,r)=>a+r.rupeesAtRisk,0);
+  document.getElementById('summary').textContent=`${(c.exception||0)+(c.reorder_now||0)+(c.reorder||0)+(c.pause||0)} SKUs need a decision: ${c.exception||0} exceptions for you, ${c.reorder_now||0} to reorder now, ${c.reorder||0} to reorder and ${c.pause||0} to pause. About ₹${(risk/1e5).toFixed(1)} lakh is at risk across them. ${c.held||0} SKUs are held back for data fixes.`;
+  document.getElementById('issues').textContent=DATA.issues.map(i=>i.message).join(' ');
+}
+function tabs(){
+  const c=counts();
+  document.getElementById('tabs').innerHTML=['exception','reorder_now','reorder','pause','held','ok'].map(s=>`<button type="button" class="tab" data-f="${s}" aria-pressed="${filter===s}">${LABEL[s]} <b>${c[s]||0}</b></button>`).join('');
+  const cats=[...new Set(recs.map(r=>r.category))].sort();
+  const sel=document.getElementById('cat');
+  if(!sel.options.length) sel.innerHTML='<option value="">All categories</option>'+cats.map(x=>`<option>${esc(x)}</option>`).join('');
+}
+function spark(r){
+  const w=r.trend,W=110,H=30,max=Math.max(1,...w),n=w.length;
+  const x=i=>2+i*(W-4)/(n-1),y=v=>H-3-(v/max)*(H-8);
+  const pts=w.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly units, last 16 weeks"><rect x="${x(n-4)-2}" y="0" width="${W-x(n-4)+2}" height="${H}" fill="var(--band)"/><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.6"/><circle cx="${x(n-1)}" cy="${y(w[n-1])}" r="2.4" fill="var(--accent)"/></svg>`;
+}
+function cover(r){
+  if(r.coverWeeks==null) return `<div class="cov"><b>—</b>window ${r.window.min}–${r.window.max}</div>`;
+  const W=120,scale=Math.max(r.window.max*1.6,r.coverWeeks*1.05),px=v=>Math.min(W,v/scale*W);
+  const col=r.coverWeeks<r.window.min?'var(--now)':r.coverWeeks>r.window.max?'var(--gate)':'var(--accent)';
+  return `<div class="cov"><svg width="${W}" height="12" viewBox="0 0 ${W} 12" aria-hidden="true"><rect x="0" y="4" width="${W}" height="4" rx="2" fill="var(--line)"/><rect x="${px(r.window.min)}" y="2" width="${px(r.window.max)-px(r.window.min)}" height="8" rx="2" fill="var(--band)"/><rect x="${Math.max(0,px(r.coverWeeks)-2)}" y="0" width="4" height="12" rx="1" fill="${col}"/></svg><span><b>${r.coverWeeks} wk</b> · window ${r.window.min}–${r.window.max}</span></div>`;
+}
+function actions(r){
+  const d=decisions[r.sku];
+  if(r.status==='held') return '<span class="done"><small>Fix the data, then re-run.</small></span>';
+  if(r.status==='ok') return '<span class="done"><small>Inside the window.</small></span>';
+  if(d){
+    const lab={approved:'Approved',edited:'Edited',rejected:'Rejected',decided:'Decided'}[d.decision];
+    const qty=d.decision==='rejected'?'':` · ${fmt(d.qty)} units`;
+    return `<div class="done ${d.decision}"><b>${lab}</b>${qty}${d.note?`<small>${esc(d.note)}</small>`:''}${sent?'':` <button class="btn sm" data-a="undo" data-s="${r.sku}" type="button">Undo</button>`}</div>`;
+  }
+  if(sent) return '<span class="done"><small>Not decided before hand-off.</small></span>';
+  if(r.status==='exception') return `<button class="btn sm primary" data-a="decide" data-s="${r.sku}" type="button">Decide</button>`;
+  return `<button class="btn sm primary" data-a="approve" data-s="${r.sku}" type="button">Approve</button><button class="btn sm" data-a="edit" data-s="${r.sku}" type="button">Edit</button><button class="btn sm" data-a="reject" data-s="${r.sku}" type="button">Reject</button>`;
+}
+function qtyCell(r){
+  if(r.status==='exception') return r.suggestedQty!=null?`<span class="sub">rules: ${fmt(r.suggestedQty)}</span>`:'<span class="sub">none</span>';
+  if(r.recommendedQty==null) return '—';
+  return r.status==='pause'?'<b>0</b> <span class="sub">pause</span>':`<b>${fmt(r.recommendedQty)}</b>`;
+}
+function editorRow(r){
+  const mode=editing.mode,d=decisions[r.sku];
+  const qty=mode==='reject'?'':`<label>Quantity <input type="number" min="0" step="1" id="eq" value="${d?d.qty:(r.recommendedQty??r.suggestedQty??'')}"></label>`;
+  const ph=mode==='reject'?'Why reject? e.g. distributor scheme ending next week':mode==='decide'?'Your reasoning, e.g. launch tracking 2x plan in Pune':'Why change it? e.g. truck capacity is 1,200';
+  return `<tr class="editor"><td colspan="7"><div class="ed">${qty}<label>Note <input type="text" id="en" placeholder="${esc(ph)}"></label><button class="btn sm primary" data-a="save" data-s="${r.sku}" type="button">${mode==='reject'?'Reject line':'Save'}</button><button class="btn sm" data-a="cancel" type="button">Cancel</button><span class="err" id="eerr"></span></div></td></tr>`;
+}
+function visible(){
+  const s=q.toLowerCase();
+  return recs.filter(r=>r.status===filter&&(!cat||r.category===cat)&&(!s||r.sku.toLowerCase().includes(s)||r.name.toLowerCase().includes(s)));
+}
+function rows(){
+  const v=visible();
+  document.getElementById('rows').innerHTML=v.length?v.map(r=>{
+    const rules=r.rules.map(x=>RULE[x]).join(' · ');
+    const why=r.status==='exception'?esc(r.exceptionReasons.join(' ')):esc(r.reason);
+    const tr=`<tr><td><div class="nm">${esc(r.name)}</div><div class="sub">${r.sku} · ${esc(r.category)}${r.perishable?' · <span class="per">Perishable</span>':''}</div></td><td><span class="pill p-${r.status}">${PILL[r.status]}</span>${rules?`<span class="rule">${rules}</span>`:''}</td><td>${spark(r)}</td><td>${cover(r)}</td><td class="num">${qtyCell(r)}</td><td class="reason">${why}<small>4-wk avg ${fmt(r.avg4)} · 12-wk avg ${fmt(r.avg12)} · on hand ${fmt(r.onHand)} · on order ${fmt(r.onOrder)}</small></td><td class="act">${actions(r)}</td></tr>`;
+    return tr+(editing&&editing.sku===r.sku?editorRow(r):'');
+  }).join(''):`<tr><td colspan="7" class="empty">Nothing in this view.</td></tr>`;
+  if(editing){const el=document.getElementById(editing.mode==='reject'?'en':'eq');if(el)el.focus();}
+}
+function progress(){
+  const need=recs.filter(needs),done=need.filter(r=>decisions[r.sku]).length;
+  const ex=recs.filter(r=>r.status==='exception'),exLeft=ex.filter(r=>!decisions[r.sku]).length;
+  document.getElementById('prog').textContent=`${done} of ${need.length} decided${exLeft?` · ${exLeft} exceptions still need your call`:''}`;
+  document.getElementById('meter').style.width=(need.length?done/need.length*100:0)+'%';
+  const btn=document.getElementById('send');btn.disabled=!!sent||exLeft>0;
+  btn.title=exLeft?'Decide every exception first':'';
+  document.getElementById('bulk').hidden=!!sent||!['reorder_now','reorder','pause'].includes(filter);
+  const lock=document.getElementById('lock');lock.hidden=!sent;
+  if(sent) lock.textContent=`Sent to procurement at ${sent}. Decisions are locked for this run.`;
+}
+function render(){header();tabs();rows();progress();}
+function toast(msg,undo){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;document.getElementById('tundo').hidden=!undo;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,6000);}
+
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;filter=b.dataset.f;editing=null;render();});
+document.getElementById('q').addEventListener('input',e=>{q=e.target.value;rows();});
+document.getElementById('cat').addEventListener('change',e=>{cat=e.target.value;rows();});
+document.getElementById('rows').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-a]');if(!b)return;
+  const a=b.dataset.a,r=recs.find(x=>x.sku===b.dataset.s);
+  if(a==='approve'){decisions[r.sku]={decision:'approved',qty:r.recommendedQty,note:'',at:new Date().toISOString()};persist();render();}
+  else if(a==='edit'||a==='reject'||a==='decide'){editing={sku:r.sku,mode:a};rows();}
+  else if(a==='cancel'){editing=null;rows();}
+  else if(a==='undo'){delete decisions[r.sku];persist();render();}
+  else if(a==='save'){
+    const note=(document.getElementById('en').value||'').trim();const qe=document.getElementById('eq');
+    const qty=qe?Number(qe.value):null;const err=document.getElementById('eerr');
+    if(editing.mode!=='reject'&&(qe.value===''||!Number.isFinite(qty)||qty<0)){err.textContent='Enter a quantity of 0 or more.';return;}
+    if(!note){err.textContent='Add a note. Every edit, rejection and exception call needs a reason.';return;}
+    const dec=editing.mode==='reject'?'rejected':editing.mode==='decide'?'decided':(qty===r.recommendedQty?'approved':'edited');
+    decisions[r.sku]={decision:dec,qty:editing.mode==='reject'?null:Math.round(qty),note,at:new Date().toISOString()};
+    editing=null;persist();render();
+  }
+});
+document.getElementById('bulk').addEventListener('click',()=>{
+  const v=visible().filter(r=>!decisions[r.sku]&&r.recommendedQty!=null);
+  if(!v.length){toast('Every line in this view is already decided.');return;}
+  v.forEach(r=>decisions[r.sku]={decision:'approved',qty:r.recommendedQty,note:'',at:new Date().toISOString()});
+  lastBulk=v.map(r=>r.sku);persist();render();toast(`Approved ${v.length} lines in ${LABEL[filter]}.`,true);
+});
+document.getElementById('tundo').addEventListener('click',()=>{if(lastBulk){lastBulk.forEach(s=>delete decisions[s]);lastBulk=null;persist();render();}document.getElementById('toast').hidden=true;});
+
+function setgrid(){document.getElementById('setgrid').innerHTML=SET.map(([k,l])=>`<label>${l}<input id="set-${k}" value="${Array.isArray(settings[k])?settings[k].join(', '):settings[k]}"></label>`).join('');}
+document.getElementById('setbtn').addEventListener('click',e=>{const p=document.getElementById('settings');p.hidden=!p.hidden;e.target.setAttribute('aria-expanded',String(!p.hidden));setgrid();});
+document.getElementById('rerun').addEventListener('click',()=>{
+  const next=Object.assign({},settings);
+  for(const [k] of SET){const v=document.getElementById('set-'+k).value;next[k]=k==='festivalMonths'?v.split(',').map(x=>Number(x.trim())).filter(x=>x>=1&&x<=12):Number(v);
+    if(k!=='festivalMonths'&&!Number.isFinite(next[k])){toast(`“${v}” is not a number.`);return;}}
+  settings=next;decisions={};sent=null;editing=null;compute();persist();render();toast('Re-ran 400 SKUs with the new settings.');
+});
+document.getElementById('reset').addEventListener('click',()=>{settings=Object.assign({},P.DEFAULT_SETTINGS);setgrid();});
+
+function approvedLines(){return recs.filter(r=>decisions[r.sku]&&decisions[r.sku].decision!=='rejected');}
+document.getElementById('send').addEventListener('click',()=>{
+  const lines=approvedLines(),buy=lines.filter(r=>decisions[r.sku].qty>0),pause=lines.filter(r=>decisions[r.sku].qty===0);
+  const csv=['sku,name,qty,decision,note',...buy.map(r=>{const d=decisions[r.sku];return [r.sku,`"${r.name}"`,d.qty,d.decision,`"${(d.note||'').replace(/"/g,'""')}"`].join(',')})].join('\n');
+  document.getElementById('csv').value=csv;
+  const undecided=recs.filter(r=>needs(r)&&!decisions[r.sku]).length;
+  document.getElementById('hsum').textContent=`${buy.length} reorder lines, ${fmt(buy.reduce((a,r)=>a+decisions[r.sku].qty,0))} units. ${pause.length} SKUs paused this cycle.${undecided?` ${undecided} lines you have not decided will not be sent.`:''}`;
+  document.getElementById('handoff').hidden=false;document.getElementById('handoff').scrollIntoView({behavior:'smooth'});
+});
+document.getElementById('copy').addEventListener('click',()=>{const t=document.getElementById('csv');const done=()=>toast('CSV copied.');
+  try{navigator.clipboard.writeText(t.value).then(done,()=>{t.select();toast('Press Ctrl+C to copy the selected CSV.');});}catch(e){t.select();toast('Press Ctrl+C to copy the selected CSV.');}});
+document.getElementById('confirm').addEventListener('click',()=>{sent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});persist();document.getElementById('handoff').hidden=true;render();toast('Marked as sent. Decisions are locked.');});
+document.getElementById('hclose').addEventListener('click',()=>document.getElementById('handoff').hidden=true);
+
+compute();render();
+})();
+</script>
